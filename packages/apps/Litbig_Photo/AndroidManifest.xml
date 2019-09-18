@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.litbig.app.photo"
+    android:versionCode="1"
+    android:versionName="0.0.1"
+    android:sharedUserId="android.uid.system">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="com.litbig.mediastorage.READ_DATABASE" />
+    <uses-permission android:name="com.litbig.mediastorage.WRITE_DATABASE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/btn_small_photo_nor"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity
+            android:name="com.litbig.app.photo.activity.PhotoActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <service
+            android:name="com.litbig.app.photo.service.PhotoPlaybackService" >
+            <intent-filter>
+                <action android:name="com.litbig.app.photo.aidl.IPhotoService" />
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="com.litbig.app.photo.receiver.StorageEjectReceiver">
+            <intent-filter>
+                <action android:name="com.litbig.intent.action.MEDIA_PREPARED" />
+                <action android:name="com.litbig.intent.action.MEDIA_EJECT" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

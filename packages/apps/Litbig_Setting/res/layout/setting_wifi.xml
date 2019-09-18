@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.litbig.setting.network.wifi.WiFiLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13px"
+        android:layout_marginLeft="2px"
+        android:layout_marginTop="6px"
+        android:includeFontPadding="false"
+        android:text="@string/wifi"
+        android:textColor="#ffffff"
+        android:textSize="24px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13px"
+        android:layout_marginLeft="2px"
+        android:layout_marginTop="33px"
+        android:includeFontPadding="false"
+        android:text="@string/wifi_warning"
+        android:textColor="#999999"
+        android:textSize="16px" />
+
+    <TextView
+        android:id="@+id/btn_tb_wifi_switch"
+        android:layout_width="240px"
+        android:layout_height="56px"
+        android:layout_marginBottom="13px"
+        android:layout_marginLeft="574px"
+        android:background="@drawable/btn_text_box"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="@string/off"
+        android:textColor="@color/color_btn_text_box"
+        android:textSize="18px" />
+
+    <LinearLayout
+        android:id="@+id/wifi_list_area"
+        android:layout_width="wrap_content"
+        android:layout_height="275px"
+        android:layout_marginTop="90px"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="54px" >
+
+            <TextView
+                android:id="@+id/tv_wifi_item_count"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2px"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@string/wifi_available_device"
+                android:textColor="#ffffff"
+                android:textSize="16px" />
+
+            <ImageButton
+                android:id="@+id/btn_wifi_refresh"
+                android:layout_width="54px"
+                android:layout_height="54px"
+                android:layout_marginLeft="6px"
+                android:layout_toRightOf="@+id/tv_wifi_item_count"
+                android:background="@drawable/btn_refresh" />
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/lv_wifi"
+            android:layout_width="814px"
+            android:layout_height="232px"
+            android:layout_marginTop="-11px"
+            android:scrollbars="none" 
+        	android:divider="@android:color/transparent"/>
+    </LinearLayout>
+    
+    <ProgressBar 
+        android:id="@+id/progress_loading"
+        android:layout_marginTop="90px"
+        android:layout_width="814px"
+        android:layout_height="275px"
+        android:paddingTop="114px"
+        android:paddingBottom="114px"
+        android:paddingLeft="383px"
+        android:paddingRight="383px" />
+    
+</com.litbig.setting.network.wifi.WiFiLayout>

@@ -1,0 +1,14 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="1024px"
+    android:layout_height="600px"
+    android:background="#FFFFFF" >
+    <LinearLayout
+        android:id="@+id/imageLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"                
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+    </LinearLayout>    
+</RelativeLayout>

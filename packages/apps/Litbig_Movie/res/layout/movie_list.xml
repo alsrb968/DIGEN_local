@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_video_list" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="52"
+        android:orientation="horizontal" >
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="40" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|left"
+            android:layout_weight="848"
+            android:ellipsize="end"
+            android:singleLine="true" 
+            android:text="@string/list"
+            android:textSize="18px"
+            android:textColor="#ffffff"
+            android:gravity="left|center_vertical" />
+        <ImageButton android:id="@+id/grid_change_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="52" 
+            android:src="@drawable/ic_thumb_click"
+            android:background="@android:color/transparent" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6" />
+        <ImageButton android:id="@+id/list_change_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="52"
+            android:src="@drawable/ic_list_click"
+            android:background="@android:color/transparent" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="26" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="114"
+        android:orientation="horizontal" >
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="350" />
+        <ImageButton android:id="@+id/category_all_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="112"
+            android:src="@drawable/tab_list_all_click"
+            android:background="@android:color/transparent" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="100" />
+        <ImageButton android:id="@+id/category_folder_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="112"
+            android:src="@drawable/tab_list_folder_click"
+            android:background="@android:color/transparent" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="350" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="372"
+        android:orientation="vertical" >
+        <LinearLayout android:id="@+id/list_upstep"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="71"
+            android:orientation="vertical" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="70"
+                android:orientation="horizontal"
+                android:background="@drawable/listview_selector" >
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="19" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="58"
+                    android:orientation="vertical" >
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="12" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="46"
+                        android:src="@drawable/ic_upstep_click" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="12" />
+                </LinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="941"
+                    android:orientation="vertical" >
+                    <TextView 
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="43"
+                        android:gravity="left|center_vertical"
+                        android:singleLine="true"
+                        android:text="@string/list_subcategory"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:textSize="18px"
+                        android:ellipsize="end" />
+                    <TextView android:id="@+id/sub_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="27"
+                        android:gravity="top"
+                        android:singleLine="true"
+                        android:textColor="#CCCCCC"
+                        android:ellipsize="end" />
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#1AFFFFFF" />
+        </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="301" >
+            <com.litbig.app.movie.activity.view.KoreanIndexerListView
+                android:id="@+id/item_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:listSelector="@drawable/listview_selector"
+                android:divider="#1AFFFFFF"
+                android:dividerHeight="1px"
+                app:indexerBackground="#ffffff"
+                app:indexerRadius="60"
+                app:indexerTextColor="#000000"
+                app:indexerWidth="20"
+                app:sectionBackground="#ffffff"
+                app:sectionDelay="1000"
+                app:sectionTextColor="#000000"
+                app:useSection="true"/>
+            <GridView android:id="@+id/item_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="5"
+                android:listSelector="@android:color/transparent" />
+        </FrameLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="62" />
+</LinearLayout>

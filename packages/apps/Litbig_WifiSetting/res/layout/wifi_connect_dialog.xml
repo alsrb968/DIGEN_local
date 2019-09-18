@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="534px"
+    android:layout_height="396px"
+    android:layout_marginLeft="133px"
+    android:layout_marginTop="42px"
+    android:background="@drawable/board_popup"
+    android:paddingBottom="10px"
+    android:paddingLeft="1px"
+    android:paddingRight="7px"
+    android:paddingTop="6px" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="11px"
+        android:paddingLeft="27px"
+        android:paddingRight="27px" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="55px"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/wifi_con_dialog_title"
+            android:textColor="#ffffff"
+            android:textSize="22dp" />
+
+        <TextView
+            android:id="@+id/ssid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80px"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/wifi_name"
+            android:textColor="#ffffff"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="126px"
+            android:includeFontPadding="false"
+            android:text="@string/password"
+            android:textColor="#ffffff"
+            android:textSize="12dp" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="48px"
+            android:layout_marginTop="148px"
+            android:background="@drawable/edit_textview_style_blank"
+            android:gravity="center_vertical"
+            android:hint="@string/hint_password"
+            android:inputType="textPassword"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@+id/password"
+            android:background="#ffffff" />
+
+        <CheckBox
+            android:id="@+id/cbox_noti_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password"
+            android:layout_marginTop="25px"
+            android:button="@drawable/checkbox_selector"
+            android:paddingLeft="12px"
+            android:text="@string/show_password"
+            android:textColor="#ffffff"
+            android:textSize="16px" />
+
+        <CheckBox
+            android:id="@+id/cbox_auto_connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cbox_noti_password"
+            android:layout_marginTop="20px"
+            android:button="@drawable/checkbox_selector"
+            android:paddingLeft="12px"
+            android:text="@string/auto_reconnect"
+            android:textColor="#ffffff"
+            android:textSize="16px" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_connect"
+        android:layout_width="262px"
+        android:layout_height="55px"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:background="@drawable/btn_popup"
+        android:textColor="#ffffff"
+        android:textSize="18px"
+        android:text="@string/wifi_connect" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="262px"
+        android:layout_height="55px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:background="@drawable/btn_popup"
+        android:textColor="#ffffff"
+        android:textSize="18px"
+        android:text="@string/cancel" />
+    
+</RelativeLayout>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.litbig.setting.system.SystemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80px"
+        android:layout_marginTop="90px"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="403px"
+            android:layout_height="56px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|top"
+                android:includeFontPadding="false"
+                android:text="@string/nodel_name"
+                android:textColor="#ffffff"
+                android:textSize="24px" />
+
+            <TextView
+                android:id="@+id/tv_model_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center|top"
+                android:includeFontPadding="false"
+                android:text="JY-R1000"
+                android:textColor="#ffffff"
+                android:textSize="24px" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="403px"
+            android:layout_height="56px"
+            android:layout_marginTop="28px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|top"
+                android:includeFontPadding="false"
+                android:text="@string/fw_version"
+                android:textColor="#ffffff"
+                android:textSize="24px" />
+
+            <TextView
+                android:id="@+id/tv_fw_version"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center|top"
+                android:includeFontPadding="false"
+                android:text="N/A"
+                android:textColor="#ffffff"
+                android:textSize="24px" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="403px"
+            android:layout_height="56px"
+            android:layout_marginTop="28px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|top"
+                android:includeFontPadding="false"
+                android:text="@string/serial_number"
+                android:textColor="#ffffff"
+                android:textSize="24px" />
+
+            <TextView
+                android:id="@+id/tv_serial_number"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center|top"
+                android:includeFontPadding="false"
+                android:text="N/A"
+                android:textColor="#ffffff"
+                android:textSize="24px" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="403px"
+            android:layout_height="56px"
+            android:layout_marginTop="28px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|top"
+                android:includeFontPadding="false"
+                android:text="@string/mcu_version"
+                android:textColor="#ffffff"
+                android:textSize="24px" />
+
+            <TextView
+                android:id="@+id/tv_mcu_version"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center|top"
+                android:includeFontPadding="false"
+                android:text="N/A"
+                android:textColor="#ffffff"
+                android:textSize="24px" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="403px"
+            android:layout_height="56px"
+            android:layout_marginTop="28px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|top"
+                android:includeFontPadding="false"
+                android:text="@string/cas_id"
+                android:textColor="#ffffff"
+                android:textSize="24px" />
+
+            <TextView
+                android:id="@+id/tv_cas_id"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center|top"
+                android:includeFontPadding="false"
+                android:text="N/A"
+                android:textColor="#ffffff"
+                android:textSize="24px" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="2px"
+        android:layout_height="365px"
+        android:layout_marginLeft="527px"
+        android:layout_marginTop="86px"
+        android:background="@drawable/line_divide" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="572px"
+        android:layout_marginTop="91px"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/btn_tb_update"
+            android:layout_width="240px"
+            android:layout_height="56px"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_text_box"
+            android:clickable="true"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/fw_update"
+            android:textColor="@color/color_btn_text_box"
+            android:textSize="18px" />
+
+        <TextView
+            android:id="@+id/btn_tb_reboot"
+            android:layout_width="240px"
+            android:layout_height="56px"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="28px"
+            android:background="@drawable/btn_text_box"
+            android:clickable="true"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/reboot_device"
+            android:textColor="@color/color_btn_text_box"
+            android:textSize="18px" />
+
+        <TextView
+            android:id="@+id/btn_tb_reset"
+            android:layout_width="240px"
+            android:layout_height="56px"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="28px"
+            android:background="@drawable/btn_text_box"
+            android:clickable="true"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/reset_setting"
+            android:textColor="@color/color_btn_text_box"
+            android:textSize="18px" />
+    </LinearLayout>
+
+</com.litbig.setting.system.SystemLayout>

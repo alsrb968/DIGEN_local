@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="1080px"
+    android:background="@drawable/bg_main"
+    android:keepScreenOn="true" >
+
+    <RelativeLayout
+        android:id="@+id/status_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:id="@+id/time_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40px"
+            android:layout_marginTop="16px" >
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="09:00"
+                android:textColor="#f0f0f0"
+                android:textSize="40px" />
+
+            <TextView
+                android:id="@+id/tv_time_division"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="103px"
+                android:includeFontPadding="false"
+                android:text="pm"
+                android:textColor="#f0f0f0"
+                android:textSize="40px" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/date_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="215px"
+            android:layout_marginTop="30px" >
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="98px"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:includeFontPadding="false"
+                android:text="11월 20일"
+                android:textColor="#f0f0f0"
+                android:textSize="22px" />
+
+            <TextView
+                android:id="@+id/tv_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="104px"
+                android:includeFontPadding="false"
+                android:textColor="#f0f0f0"
+                android:textSize="22px" />
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/btn_bluetooth"
+            android:layout_width="48px"
+            android:layout_height="48px"
+            android:layout_marginLeft="753px"
+            android:layout_marginTop="15px"
+            android:background="@drawable/btn_bt_dis" />
+
+        <ImageButton
+            android:id="@+id/btn_wifi"
+            android:layout_width="48px"
+            android:layout_height="48px"
+            android:layout_marginLeft="817px"
+            android:layout_marginTop="15px"
+            android:background="@drawable/btn_wifi_dis" />
+
+        <ImageButton 
+            android:id="@+id/btn_brightness"
+            android:layout_width="48px"
+            android:layout_height="48px"
+            android:layout_marginLeft="881px"
+            android:layout_marginTop="15px"
+            android:background="@drawable/btn_main_brightness"/>
+        
+        <ImageButton
+            android:id="@+id/btn_setting"
+            android:layout_width="48px"
+            android:layout_height="48px"
+            android:layout_marginLeft="944px"
+            android:layout_marginTop="15px"
+            android:background="@drawable/btn_main_setting" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="120px"
+        android:layout_marginTop="145px" >
+
+        <ImageButton
+            android:id="@+id/btn_apps"
+            android:layout_width="150px"
+            android:layout_height="160px"
+            android:background="@drawable/btn_main_apps" />
+
+        <ImageView
+            android:id="@+id/iv_album_cover"
+            android:layout_width="312px"
+            android:layout_height="160px"
+            android:layout_marginLeft="155px"
+            android:background="@drawable/menu_02_cover"
+            android:scaleType="centerCrop" />
+
+        <ImageButton
+            android:id="@+id/btn_audio"
+            android:layout_width="312px"
+            android:layout_height="160px"
+            android:layout_marginLeft="155px"
+            android:background="@drawable/btn_main_audio" />
+
+        <RelativeLayout
+            android:id="@+id/control_audio"
+            android:layout_width="312px"
+            android:layout_height="160px"
+            android:layout_marginLeft="155px" >
+
+            <FrameLayout
+                android:id="@+id/progress_audio_time"
+                android:layout_width="312px"
+                android:layout_height="4px"
+                android:background="#ffffff" />
+
+            <ImageButton
+                android:id="@+id/btn_audio_prev"
+                android:layout_width="48px"
+                android:layout_height="48px"
+                android:layout_marginLeft="20px"
+                android:layout_marginTop="48px"
+                android:background="@drawable/btn_audio_prev" />
+
+            <ImageButton
+                android:id="@+id/btn_audio_play"
+                android:layout_width="76px"
+                android:layout_height="76px"
+                android:layout_marginLeft="118px"
+                android:layout_marginTop="34px"
+                android:background="@drawable/btn_audio_play" />
+
+            <ImageButton
+                android:id="@+id/btn_audio_pause"
+                android:layout_width="76px"
+                android:layout_height="76px"
+                android:layout_marginLeft="118px"
+                android:layout_marginTop="34px"
+                android:background="@drawable/btn_audio_pause" />
+
+            <ImageButton
+                android:id="@+id/btn_audio_next"
+                android:layout_width="48px"
+                android:layout_height="48px"
+                android:layout_marginLeft="244px"
+                android:layout_marginTop="48px"
+                android:background="@drawable/btn_audio_next" />
+
+            <TextView
+                android:id="@+id/tv_audio_title"
+                android:layout_width="223px"
+                android:layout_height="26px"
+                android:layout_marginLeft="78px"
+                android:layout_marginTop="134px"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:gravity="left"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textColor="#ffffff"
+                android:textSize="16px" />
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/btn_dmb"
+            android:layout_width="153px"
+            android:layout_height="160px"
+            android:layout_marginLeft="472px"
+            android:background="@drawable/btn_main_dmb" />
+
+        <ImageButton
+            android:id="@+id/btn_image"
+            android:layout_width="153px"
+            android:layout_height="160px"
+            android:layout_marginLeft="631px"
+            android:background="@drawable/btn_main_image" />
+
+        <ImageButton
+            android:id="@+id/btn_miracast"
+            android:layout_width="308px"
+            android:layout_height="147px"
+            android:layout_marginTop="165px"
+            android:background="@drawable/btn_main_miracast" />
+
+        <ImageButton
+            android:id="@+id/btn_airplay"
+            android:layout_width="154px"
+            android:layout_height="147px"
+            android:layout_marginLeft="313px"
+            android:layout_marginTop="165px"
+            android:background="@drawable/btn_main_airplay" />
+
+        <ImageButton
+            android:id="@+id/btn_video"
+            android:layout_width="312px"
+            android:layout_height="147px"
+            android:layout_marginLeft="472px"
+            android:layout_marginTop="165px"
+            android:background="@drawable/btn_main_video" />
+
+        <ImageView
+            android:layout_width="784px"
+            android:layout_height="76px"
+            android:layout_marginTop="316px"
+            android:background="@drawable/img_shadow" />
+    </RelativeLayout>
+
+</RelativeLayout>

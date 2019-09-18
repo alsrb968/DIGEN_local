@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="1080px"
+    android:background="@drawable/bg_app"
+    tools:context=".HomeScreen" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="31px"
+        android:layout_height="54px"
+        android:layout_marginLeft="40px"
+        android:background="@drawable/ic_app" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="88px"
+        android:layout_marginTop="16px"
+        android:includeFontPadding="false"
+        android:text="App"
+        android:textColor="#ffffff"
+        android:textSize="18px" />
+
+    <ImageButton
+        android:id="@+id/refresh"
+        android:layout_width="52px"
+        android:layout_height="54px"
+        android:layout_marginLeft="946px"
+        android:background="@drawable/btn_refresh" />
+
+    <fragment
+        android:id="@+id/apps_grid"
+        android:layout_marginTop="116px"
+        android:layout_marginLeft="90px"
+        android:layout_marginRight="90px"
+        android:layout_width="match_parent"
+        android:layout_height="423px"
+        android:name="com.litbig.app.launcher.AppsGridFragment" />
+
+</RelativeLayout>

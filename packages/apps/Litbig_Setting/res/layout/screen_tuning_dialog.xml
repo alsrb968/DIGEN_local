@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="534px"
+    android:layout_height="396px"
+    android:layout_gravity="center"
+    android:background="@drawable/board_popup">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28px"
+        android:layout_marginTop="23px"
+        android:includeFontPadding="false"
+        android:text="@string/set_screen_contrast"
+        android:textColor="#ffffff"
+        android:textSize="22px" />
+
+    <RelativeLayout
+        android:layout_width="478px"
+        android:layout_height="48px"
+        android:layout_marginLeft="28px"
+        android:layout_marginTop="76px" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6px"
+            android:includeFontPadding="false"
+            android:text="@string/dlg_title_contrast"
+            android:textColor="#ffffff"
+            android:textSize="18px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26px"
+            android:includeFontPadding="false"
+            android:text="@string/dlg_msg_contrast"
+            android:textColor="#999999"
+            android:textSize="16px" />
+
+        <TextView
+            android:id="@+id/tv_constrast_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="128px"
+            android:layout_marginTop="15px"
+            android:includeFontPadding="false"
+            android:text="80"
+            android:textColor="#ffffff"
+            android:textSize="18px" />
+
+        <ImageButton
+            android:id="@+id/btn_set_constrast_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="58px"
+            android:background="@drawable/btn_minus" />
+
+        <ImageButton
+            android:id="@+id/btn_set_constrast_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_plus" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="478px"
+        android:layout_height="48px"
+        android:layout_marginLeft="28px"
+        android:layout_marginTop="164px" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6px"
+            android:includeFontPadding="false"
+            android:text="@string/dlg_title_brightness"
+            android:textColor="#ffffff"
+            android:textSize="18px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26px"
+            android:includeFontPadding="false"
+            android:text="@string/dlg_msg_brightness"
+            android:textColor="#999999"
+            android:textSize="16px" />
+
+        <TextView
+            android:id="@+id/tv_brightness_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="128px"
+            android:layout_marginTop="15px"
+            android:includeFontPadding="false"
+            android:text="80"
+            android:textColor="#ffffff"
+            android:textSize="18px" />
+
+        <ImageButton
+            android:id="@+id/btn_set_brightness_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="58px"
+            android:background="@drawable/btn_minus" />
+
+        <ImageButton
+            android:id="@+id/btn_set_brightness_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_plus" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="478px"
+        android:layout_height="48px"
+        android:layout_marginLeft="28px"
+        android:layout_marginTop="252px" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6px"
+            android:includeFontPadding="false"
+            android:text="@string/dlg_title_hue"
+            android:textColor="#ffffff"
+            android:textSize="18px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26px"
+            android:includeFontPadding="false"
+            android:text="@string/dlg_msg_hue"
+            android:textColor="#999999"
+            android:textSize="16px" />
+
+        <TextView
+            android:id="@+id/tv_hue_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="128px"
+            android:layout_marginTop="15px"
+            android:includeFontPadding="false"
+            android:text="80"
+            android:textColor="#ffffff"
+            android:textSize="18px" />
+
+        <ImageButton
+            android:id="@+id/btn_set_hue_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="58px"
+            android:background="@drawable/btn_minus" />
+
+        <ImageButton
+            android:id="@+id/btn_set_hue_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_plus" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55px"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1px"
+            android:layout_weight="1"
+            android:background="@drawable/btn_popup"
+            android:gravity="center"
+            android:text="@string/ok"
+            android:textColor="#ffffff"
+            android:textSize="18px" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1px"
+            android:layout_weight="1"
+            android:background="@drawable/btn_popup"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="#ffffff"
+            android:textSize="18px" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<resources>
+
+    <string name="app_name">Litbig_Music</string>
+    <string name="list">Music List</string>
+    <string name="unknown">알 수 없음</string>
+
+    <string name="error_filename">"파일명 : "</string>
+    <string name="error_not_support">재생을 지원하지 않는 파일입니다.</string>
+    <string name="error_skip_play">재생 오류로 다음 파일을 재생합니다.</string>
+    <string name="media_storage">"장치명 : "</string>
+    <string name="media_scanning">미디어 스캔 중입니다.\n잠시만 기다려주세요.</string>
+
+    <string name="list_subcategory">상위 폴더로 이동</string>
+    
+    <string name="list_indexer_korean_init">ㄱ</string>
+    <string name="list_indexer_korean_last">힣</string>
+</resources>

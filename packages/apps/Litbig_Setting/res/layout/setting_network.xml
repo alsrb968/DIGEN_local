@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/wifi_area"
+                layout="@layout/setting_wifi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="37px"
+                android:layout_marginTop="32px" />
+
+            <ImageView
+                android:id="@+id/devider"
+                android:layout_width="812px"
+                android:layout_height="1px"
+                android:layout_below="@+id/wifi_area"
+                android:layout_marginLeft="37px"
+                android:layout_marginTop="19px"
+                android:layout_marginBottom="32px"
+                android:background="#4dffffff" />
+
+            <include
+                android:id="@+id/bluetooth_area"
+                layout="@layout/setting_bluetooth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/devider"
+                android:layout_marginLeft="37px" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="534px"
+    android:layout_height="396px"
+    android:layout_marginLeft="245px"
+    android:layout_marginTop="102px"
+    android:background="@drawable/board_popup"
+    android:paddingBottom="10px"
+    android:paddingLeft="1px"
+    android:paddingRight="7px"
+    android:paddingTop="6px" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="27px"
+        android:paddingRight="27px"
+        android:paddingTop="11px" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="55px"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/wifi_con_dialog_title"
+            android:textColor="#ffffff"
+            android:textSize="22dp" />
+
+        <TextView
+            android:id="@+id/ssid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80px"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="Wi-Fi Name"
+            android:textColor="#ffffff"
+            android:textSize="18dp" />
+
+        <RelativeLayout
+            android:id="@+id/connected_wifi_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="126px" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wifi_text_status"
+                android:textColor="#ffffff"
+                android:textSize="16px" />
+
+            <TextView
+                android:id="@+id/wifi_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="#ffffff"
+                android:textSize="16px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35px"
+                android:text="@string/wifi_text_ip_address"
+                android:textColor="#ffffff"
+                android:textSize="16px" />
+
+            <TextView
+                android:id="@+id/wifi_ip_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="35px"
+                android:textColor="#ffffff"
+                android:textSize="16px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70px"
+                android:text="@string/wifi_text_link_speed"
+                android:textColor="#ffffff"
+                android:textSize="16px" />
+
+            <TextView
+                android:id="@+id/wifi_link_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="70px"
+                android:textColor="#ffffff"
+                android:textSize="16px" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="231px"
+            android:text="@string/wifi_text_signal"
+            android:textColor="#ffffff"
+            android:textSize="16px" />
+
+        <TextView
+            android:id="@+id/wifi_signal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="231px"
+            android:textColor="#ffffff"
+            android:textSize="16px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="266px"
+            android:text="@string/wifi_text_secure"
+            android:textColor="#ffffff"
+            android:textSize="16px" />
+
+        <TextView
+            android:id="@+id/wifi_secure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="266px"
+            android:textColor="#ffffff"
+            android:textSize="16px" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_connect"
+            android:layout_width="match_parent"
+            android:layout_height="55px"
+            android:layout_weight="1"
+            android:background="@drawable/btn_popup"
+            android:gravity="center"
+            android:text="@string/wifi_connect"
+            android:textColor="#ffffff"
+            android:layout_marginRight="1px"
+            android:textSize="18px" />
+
+        <Button
+            android:id="@+id/btn_forget"
+            android:layout_width="match_parent"
+            android:layout_height="55px"
+            android:layout_weight="1"
+            android:background="@drawable/btn_popup"
+            android:gravity="center"
+            android:text="@string/wifi_forget"
+            android:textColor="#ffffff"
+            android:layout_marginRight="1px"
+            android:layout_marginLeft="1px"
+            android:textSize="18px" />
+        
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="55px"
+            android:layout_weight="1"
+            android:layout_marginLeft="1px"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_popup"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="#ffffff"
+            android:textSize="18px" />
+    </LinearLayout>
+
+</RelativeLayout>

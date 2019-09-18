@@ -1,0 +1,17 @@
+# Android fstab file.
+#<src> <mnt_point> <type> <mnt_flags> <fs_mgr_flags> <device2>
+# The filesystem that contains the filesystem checker binary (typically /system) cannot
+# specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
+
+# NOTE: /vendor partition is now early-mounted and the fstab entry is specified in device tree:
+
+/dev/block/platform/bdm/by-name/cache           /cache       ext4    noatime,nosuid,nodev	wait,check,formattable
+/dev/block/platform/bdm/by-name/userdata	/data        ext4    errors=panic,noatime,nosuid,nodev,barrier=1,noauto_da_alloc         latemount,wait,check,formattable,quota,reservedsize=12M
+/dev/block/platform/bdm/by-name/misc            /misc        emmc    defaults        defaults
+
+/devices/platform/16460000.sdhc/mmc_host*               auto        auto       defaults     voldmanaged=sdcard1:auto,encryptable=userdata
+/devices/platform/11a00000.ehci/usb*                   auto        auto       defaults     voldmanaged=usb:auto,encryptable=userdata
+/devices/platform/11a80000.ohci/usb*                   auto        auto       defaults     voldmanaged=usb:auto,encryptable=userdata
+/devices/platform/11980000.dwc_otg/usb*                   auto        auto       defaults     voldmanaged=usb:auto,encryptable=userdata
+/devices/platform/11b00000.dwc3/dwc3.0.auto/xhci-hcd.1.auto/usb*                   auto        auto       defaults     voldmanaged=usb:auto,encryptable=userdata
+/devices/platform/ehci-mux.0/usb*                   auto        auto       defaults     voldmanaged=usb:auto,encryptable=userdata

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.litbig.setting.network.bluetooth.BluetoothLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2px"
+        android:layout_marginTop="6px"
+        android:includeFontPadding="false"
+        android:text="@string/bluetooth"
+        android:textColor="#ffffff"
+        android:textSize="24px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2px"
+        android:layout_marginTop="33px"
+        android:includeFontPadding="false"
+        android:text=""
+        android:textColor="#999999"
+        android:textSize="16px" />
+
+    <TextView
+        android:id="@+id/btn_tb_bluetooth_switch"
+        android:layout_width="240px"
+        android:layout_height="56px"
+        android:layout_marginLeft="574px"
+        android:background="@drawable/btn_text_box"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="@string/off"
+        android:textColor="@color/color_btn_text_box"
+        android:textSize="18px" />
+
+    <LinearLayout
+        android:id="@+id/bluetooth_list_area"
+        android:layout_width="814px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90px"
+        android:orientation="vertical" >
+ 	   <TextView android:id="@+id/title_paired_devices"
+    	    android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        	android:text="@string/bluetooth_title_paired_device"
+            android:textSize="18px"
+            android:gravity="center_vertical" 
+        	android:textColor="#ffffff"/>
+ 	   <ListView android:id="@+id/paired_devices"
+	        android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_marginTop="15px"
+        	android:layout_marginBottom="22px"
+        	android:divider="@android:color/transparent"/>
+       <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="54px" >
+	   		<TextView android:id="@+id/title_new_devices"
+	        	android:layout_width="wrap_content"
+        		android:layout_height="match_parent"
+        		android:text="@string/bluetooth_title_new_device"
+            	android:textSize="18px" 
+            	android:gravity="center"
+        		android:textColor="#ffffff"/>
+	   		<ImageButton
+                android:id="@+id/btn_bluetooth_refresh"
+                android:layout_width="54px"
+                android:layout_height="54px"
+                android:layout_marginLeft="6px"
+                android:layout_toRightOf="@+id/title_new_devices"
+                android:background="@drawable/btn_refresh" />
+        </RelativeLayout>
+    	<ListView android:id="@+id/new_devices"
+	        android:layout_width="match_parent"
+        	android:layout_height="216px"
+        	android:layout_marginTop="3px"
+        	android:layout_marginBottom="10px"
+        	android:divider="@android:color/transparent"/>
+    </LinearLayout>
+</com.litbig.setting.network.bluetooth.BluetoothLayout>

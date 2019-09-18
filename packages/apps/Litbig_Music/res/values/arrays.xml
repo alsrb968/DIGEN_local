@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="internal_category">
+        <item>Now Playing</item>
+        <item>All Track</item>
+        <item>Artist</item>
+        <item>Album</item>
+        <item>Genre</item>
+    </string-array>
+    <string-array name="externalfile_category">
+        <item>Now Playing</item>
+        <item>All Track</item>
+        <item>Artist</item>
+        <item>Album</item>
+        <item>Genre</item>
+        <item>Folder</item>
+    </string-array>
+    <string-array name="audiocd_category">
+    </string-array>
+    <string-array name="ipod_category">
+        <item>Now Playing</item>
+        <item>All Track</item>
+        <item>Artist</item>
+        <item>Album</item>
+        <item>Genre</item>
+    </string-array>
+    <string-array name="bluetooth_category">
+        <item>Now Playing</item>
+        <item>Folder</item>
+    </string-array>
+</resources>

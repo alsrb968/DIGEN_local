@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="1024px"
+    android:layout_height="600px"
+    android:background="#FFFFFF"
+    tools:context="${relativePackage}.${activityClass}" >
+    
+    <ImageButton 
+        android:id="@+id/left_up_button"
+        android:layout_width="77px"
+        android:layout_height="77px"
+        android:layout_marginTop="5px"
+        android:layout_marginLeft="5px"
+        android:background="@drawable/bt_ok_xml"    
+        />
+
+    <ImageButton 
+        android:id="@+id/left_down_button"
+        android:layout_width="77px"
+        android:layout_height="77px"
+        android:layout_marginTop="518px"
+        android:layout_marginLeft="5px"
+        android:background="@drawable/bt_ok_xml"   
+        />
+    
+    <ImageButton 
+        android:id="@+id/center_button"
+        android:layout_width="77px"
+        android:layout_height="77px"
+        android:layout_marginTop="262px"
+        android:layout_marginLeft="474px"
+        android:background="@drawable/bt_ok_xml"
+        />
+        
+    <ImageButton 
+        android:id="@+id/right_up_button"
+        android:layout_width="77px"
+        android:layout_height="77px"
+        android:layout_marginTop="5px"
+        android:layout_marginLeft="942px"
+        android:background="@drawable/bt_ok_xml"     
+        />
+    
+    <ImageButton 
+        android:id="@+id/right_down_button"
+        android:layout_width="77px"
+        android:layout_height="77px"
+        android:layout_marginTop="518px"
+        android:layout_marginLeft="942px"
+        android:background="@drawable/bt_ok_xml"
+        />    
+</RelativeLayout>

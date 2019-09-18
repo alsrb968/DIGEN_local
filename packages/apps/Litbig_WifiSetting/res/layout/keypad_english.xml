@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/keypad_key_english"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:columnCount="6"
+    android:useDefaultMargins="false"
+    android:orientation="horizontal" >
+ 
+    <Button android:id="@+id/key_0" android:text="a" android:textColor="#00000000" android:layout_marginRight="2px" android:background="@drawable/btn_l_a"/>
+    <Button android:id="@+id/key_1" android:text="b" android:textColor="#00000000" android:layout_marginRight="2px" android:background="@drawable/btn_l_b"/>
+    <Button android:id="@+id/key_2" android:text="c" android:textColor="#00000000" android:layout_marginRight="2px" android:background="@drawable/btn_l_c"/>
+    <Button android:id="@+id/key_3" android:text="d" android:textColor="#00000000" android:layout_marginRight="2px" android:background="@drawable/btn_l_d"/>
+    <Button android:id="@+id/key_4" android:text="e" android:textColor="#00000000" android:layout_marginRight="2px" android:background="@drawable/btn_l_e"/>
+    <Button android:id="@+id/key_5" android:text="f" android:textColor="#00000000" android:background="@drawable/btn_l_f"/>
+	
+    <Button android:id="@+id/key_6" android:text="g" android:textColor="#00000000" android:background="@drawable/btn_l_g"/>
+    <Button android:id="@+id/key_7" android:text="h" android:textColor="#00000000" android:background="@drawable/btn_l_h"/>
+    <Button android:id="@+id/key_8" android:text="i" android:textColor="#00000000" android:background="@drawable/btn_l_i"/>
+    <Button android:id="@+id/key_9" android:text="j" android:textColor="#00000000" android:background="@drawable/btn_l_j"/>
+    <Button android:id="@+id/key_10" android:text="k" android:textColor="#00000000" android:background="@drawable/btn_l_k"/>
+    <Button android:id="@+id/key_11" android:text="l" android:textColor="#00000000" android:background="@drawable/btn_l_l"/>
+	
+    <Button android:id="@+id/key_12" android:text="m" android:textColor="#00000000" android:background="@drawable/btn_l_m"/>
+    <Button android:id="@+id/key_13" android:text="n" android:textColor="#00000000" android:background="@drawable/btn_l_n"/>
+    <Button android:id="@+id/key_14" android:text="o" android:textColor="#00000000" android:background="@drawable/btn_l_o"/>
+    <Button android:id="@+id/key_15" android:text="p" android:textColor="#00000000" android:background="@drawable/btn_l_p"/>
+    <Button android:id="@+id/key_16" android:text="q" android:textColor="#00000000" android:background="@drawable/btn_l_q"/>
+    <Button android:id="@+id/key_104" android:text="del" android:textColor="#00000000" android:background="@drawable/btn_del"
+        android:layout_gravity="fill" android:layout_rowSpan="2"/>
+    
+    <Button android:id="@+id/key_17" android:text="r" android:textColor="#00000000" android:background="@drawable/btn_l_r"/>
+    <Button android:id="@+id/key_18" android:text="s" android:textColor="#00000000" android:background="@drawable/btn_l_s"/>
+    <Button android:id="@+id/key_19" android:text="t" android:textColor="#00000000" android:background="@drawable/btn_l_t"/>
+    <Button android:id="@+id/key_20" android:text="u" android:textColor="#00000000" android:background="@drawable/btn_l_u"/>
+    <Button android:id="@+id/key_21" android:text="v" android:textColor="#00000000" android:background="@drawable/btn_l_v"/>
+    
+    <Button android:id="@+id/key_105" android:text="save" android:textColor="#00000000" android:layout_marginRight="2px" android:background="@drawable/btn_save"
+        android:layout_gravity="fill" android:layout_rowSpan="2"/>
+    <Button android:id="@+id/key_22" android:text="w" android:textColor="#00000000" android:background="@drawable/btn_l_w"/>
+    <Button android:id="@+id/key_23" android:text="x" android:textColor="#00000000" android:background="@drawable/btn_l_x"/>
+    <Button android:id="@+id/key_24" android:text="y" android:textColor="#00000000" android:background="@drawable/btn_l_y"/>
+    <Button android:id="@+id/key_25" android:text="z" android:textColor="#00000000" android:background="@drawable/btn_l_z"/>
+    <Button android:id="@+id/key_106" android:text="space" android:textColor="#00000000" android:background="@drawable/btn_space"
+        android:layout_gravity="fill" android:layout_rowSpan="2"/>
+    
+    
+    <Button android:id="@+id/key_107" android:text="numspc" android:textColor="#00000000" android:layout_marginRight="2px" android:background="@drawable/btn_numspc"
+        android:layout_gravity="fill" android:layout_columnSpan="2"/>
+    <Button android:id="@+id/key_108" android:text="upper" android:textColor="#00000000" android:background="@drawable/btn_upper"
+        android:layout_gravity="fill" android:layout_columnSpan="2"/>
+</GridLayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="534px"
+    android:layout_height="154px"
+    android:background="@drawable/board_popup_01" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="26px"
+        android:layout_marginTop="23px"
+        android:includeFontPadding="false"
+        android:text="@string/title_brightness_dialog"
+        android:textColor="#ffffff"
+        android:textSize="22px" />
+
+    <ImageView
+        android:layout_width="36px"
+        android:layout_height="36px"
+        android:layout_marginLeft="25px"
+        android:layout_marginTop="84px"
+        android:background="@drawable/ic_bright" />
+
+    <SeekBar
+        android:id="@+id/sb_brightness"
+        android:layout_width="360px"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80px"
+        android:layout_marginTop="71px"
+        android:max="15"
+        android:maxHeight="4px"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:progress="7"
+        android:progressDrawable="@drawable/progress_seekbar"
+        android:thumb="@drawable/progress_thumb"
+        android:thumbOffset="7dp" />
+
+    <TextView
+        android:id="@+id/tv_cur_brightness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="27px"
+        android:layout_marginTop="88px"
+        android:text="100"
+        android:textColor="#ffffff"
+        android:textSize="24px" />
+
+</RelativeLayout>

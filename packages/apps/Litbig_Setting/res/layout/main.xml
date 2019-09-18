@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_set">
+
+    <RelativeLayout
+        android:layout_width="143dp"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/btn_set_screen"
+            android:layout_width="match_parent"
+            android:layout_height="136dp"
+            android:background="@drawable/btn_set_screen" />
+
+        <ImageButton
+            android:id="@+id/btn_set_network"
+            android:layout_width="match_parent"
+            android:layout_height="139dp"
+            android:layout_below="@+id/btn_set_screen"
+            android:background="@drawable/btn_set_network" />
+
+        <ImageButton
+            android:id="@+id/btn_set_system"
+            android:layout_width="match_parent"
+            android:layout_height="136dp"
+            android:layout_below="@+id/btn_set_network"
+            android:background="@drawable/btn_set_system" />
+
+    </RelativeLayout>
+
+
+    <include
+        android:id="@+id/content_setting_network"
+        layout="@layout/setting_network"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="400px" />
+
+    <include
+        android:id="@+id/content_setting_system"
+        layout="@layout/setting_system"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="400px" />"
+
+</RelativeLayout>

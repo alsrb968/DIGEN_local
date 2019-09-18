@@ -1,0 +1,15 @@
+*.iml
+.project
+.classpath
+.project.properties
+gen/
+bin/
+.idea/
+.gradle/
+local.properties
+gradle/
+build/
+gradlew*
+framework/
+settings.gradle
+glide-full-4.7.0/

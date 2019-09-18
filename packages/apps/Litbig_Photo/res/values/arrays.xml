@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="internal_category">
+        <item>Now Playing</item>
+        <item>All Album</item>
+    </string-array>
+    <string-array name="externalfile_category">
+        <item>Now Playing</item>
+        <item>All Album</item>
+        <item>Folder</item>
+    </string-array>
+</resources>

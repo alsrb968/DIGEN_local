@@ -1,0 +1,222 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_devices"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="15px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_sdcard_1"
+        android:textColor="#bdbdbd"
+        android:textSize="19px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="55px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_sdcard_2"
+        android:textColor="#bdbdbd"
+        android:textSize="19px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="95px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_sdcard_3"
+        android:textColor="#bdbdbd"
+        android:textSize="19px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="135px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_sdcard_4"
+        android:textColor="#bdbdbd"
+        android:textSize="19px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="175px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_play_sd1"
+        android:textColor="#bdbdbd"
+        android:textSize="19px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="215px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_play_sd2"
+        android:textColor="#bdbdbd"
+        android:textSize="19px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="255px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_play_sd3"
+        android:textColor="#bdbdbd"
+        android:textSize="19px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="295px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_play_sd4"
+        android:textColor="#bdbdbd"
+        android:textSize="19px" />
+
+    <TextView
+        android:id="@+id/device_text0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="155px"
+        android:layout_marginTop="15px"
+        android:includeFontPadding="false"
+        android:textColor="#bdbdbd"
+        android:textSize="19px" />
+
+    <TextView
+        android:id="@+id/device_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="155px"
+        android:layout_marginTop="55px"
+        android:includeFontPadding="false"
+        android:textColor="#bdbdbd"
+        android:textSize="19px" />
+
+    <TextView
+        android:id="@+id/device_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="155px"
+        android:layout_marginTop="95px"
+        android:includeFontPadding="false"
+        android:textColor="#bdbdbd"
+        android:textSize="19px" />
+
+    <TextView
+        android:id="@+id/device_text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="155px"
+        android:layout_marginTop="135px"
+        android:includeFontPadding="false"
+        android:textColor="#bdbdbd"
+        android:textSize="19px" />
+
+    <TextView
+        android:id="@+id/device_text3_true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="155px"
+        android:layout_marginTop="175px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_do_play"
+        android:textColor="#0000ff"
+        android:textSize="19px"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/device_text3_false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="155px"
+        android:layout_marginTop="175px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_no_available_file"
+        android:textColor="#ff0000"
+        android:textSize="19px"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/device_text4_true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="155px"
+        android:layout_marginTop="215px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_do_play"
+        android:textColor="#0000ff"
+        android:textSize="19px"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/device_text4_false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="155px"
+        android:layout_marginTop="215px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_no_available_file"
+        android:textColor="#ff0000"
+        android:textSize="19px"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/device_text5_true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="155px"
+        android:layout_marginTop="255px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_do_play"
+        android:textColor="#0000ff"
+        android:textSize="19px"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/device_text5_false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="155px"
+        android:layout_marginTop="255px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_no_available_file"
+        android:textColor="#ff0000"
+        android:textSize="19px"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/device_text6_true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="155px"
+        android:layout_marginTop="295px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_do_play"
+        android:textColor="#0000ff"
+        android:textSize="19px"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/device_text6_false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="155px"
+        android:layout_marginTop="295px"
+        android:includeFontPadding="false"
+        android:text="@string/test_mode_no_available_file"
+        android:textColor="#ff0000"
+        android:textSize="19px"
+        android:visibility="gone" />
+
+</RelativeLayout>

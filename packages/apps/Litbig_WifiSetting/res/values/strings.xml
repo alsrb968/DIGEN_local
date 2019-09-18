@@ -1,0 +1,93 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">WiFi</string>
+    <string name="main_title">WiFi</string>
+
+    <string name="setting">설정</string>
+
+    <!-- setting network -->
+    <string name="wifi">Wi-Fi</string>
+    <string name="wifi_setting">Wi-Fi 설정</string>
+    <string name="wifi_network">Wi-Fi 네트워크</string>
+    <string name="mac_address">MAC 주소</string>
+    <string name="on">켬</string>
+    <string name="off">끔</string>
+
+    <!-- wifi connector -->
+    <string name="wifi_warning">Wi-Fi로 휴대폰과 연결하면 데이터요금이 발생할 수 있습니다.</string>
+    <string name="wifi_available_device">Wi-Fi로 연결 가능한 디바이스</string>
+
+    <string name="wifi_con_title">Wi-Fi Connector</string>
+    <string name="wifi_con_scan_result">Wi-Fi로 연결 가능한 디바이스</string>
+    <string name="wifi_con_warning">Wi-Fi로 휴대폰과 내비게이션을 연결하면\n데이터 요금이 발생할 수 있습니다.</string>
+    <string name="wifi_con_scanning">Wi-Fi 검색 중...</string>
+    <string name="wifi_con_state_off">사용 가능한 네트워크를 보려면 우측 상단의 버튼을\n눌러 WiFi를 켜세요.</string>
+
+    <string name="wifi_disabled_password_failure">인증 문제</string>
+    <string name="wifi_disabled_network_failure">인터넷 접속 불량 방지</string>
+    <string name="wifi_disabled_generic">사용 중지됨</string>
+    <string name="wifi_not_in_range">범위 내에 없음</string>
+    <string name="wifi_remembered">저장됨</string>
+    <string name="wifi_secured_first_item">"<xliff:g id="WIFI_SECURITY_SHORT">%1$s</xliff:g>(으)로 보안"</string>
+    <string name="wifi_secured_second_item">" <xliff:g id="WIFI_SECURITY_SHORT">%1$s</xliff:g>(으)로 보안"</string>
+    <string name="wifi_wps_available_first_item">"WPS 사용 가능"</string>
+    <string name="wifi_wps_available_second_item">" (WPS 사용 가능)"</string>
+
+    <string name="wifi_connect">연결</string>
+    <string name="wifi_forget">저장 안함</string>
+
+    <string name="wifi_text_status">상태</string>
+    <string name="wifi_text_signal">신호 강도</string>
+    <string name="wifi_text_link_speed">링크 속도</string>
+    <string name="wifi_text_ip_address">IP 주소</string>
+    <string name="wifi_text_secure">보안</string>
+
+    <string name="wifi_security_short_wep">WEP</string>
+    <string name="wifi_security_short_wpa">WPA</string>
+    <string name="wifi_security_short_wpa2">WPA2</string>
+    <string name="wifi_security_short_wpa_wpa2">WPA/WPA2</string>
+    <string name="wifi_security_short_psk_generic">@string/wifi_security_short_wpa_wpa2</string>
+    <string name="wifi_security_short_eap">802.1x</string>
+
+    <string name="wifi_security_none">None</string>
+
+    <string name="wifi_security_wep">WEP</string>
+    <string name="wifi_security_wpa">WPA PSK</string>
+    <string name="wifi_security_wpa2">WPA2 PSK</string>
+    <string name="wifi_security_wpa_wpa2">WPA/WPA2 PSK</string>
+    <string name="wifi_security_psk_generic">@string/wifi_security_wpa_wpa2</string>
+    <string name="wifi_security_eap">802.1x EAP</string>
+    <string name="wifi_security_open">Open</string>
+
+    <string name="wifi_disconnected">Wi-Fi연결이 해제되었습니다.</string>
+    <string name="wifi_connected"><xliff:g id="wifi_ssid">WiFi네트워크 %s로 연결되었습니다.</xliff:g></string>
+
+    <string name="wifi_toast_lack_password_length">"비밀번호는 8자 ~ 63자를\n입력하여 주세요."</string>
+    <string name="wifi_toast_msg_password_incorrect">"비밀번호가 일치하지 않습니다."</string>
+
+    <string name="show_password">비밀번호 표시</string>
+    <string name="auto_reconnect">자동으로 다시 연결</string>
+
+    <string name="hint_password">비밀번호를 입력하세요</string>
+
+    <string name="ok">확인</string>
+    <string name="cancel">취소</string>
+    <string name="password">비밀번호</string>
+
+    <string name="wifi_con_dialog_title">Wi-Fi 연결</string>
+    <string name="wifi_name">Wi-Fi Name</string>
+
+    <string name="capital_on">On</string>
+    <string name="capital_off">Off</string>
+
+    <string name="popup_title_signal_strenth">Sinal Strenth</string>
+    <string name="popup_title_security">Security</string>
+    <string name="popup_title_password">Password</string>
+    <string name="popup_title_show_password">Show Password</string>
+    <string name="popup_connect">Connect</string>
+    <string name="popup_cancel">Cancel</string>
+    <string name="popup_save">Save</string>
+    <string name="popup_do_not_save">Don\'t Save</string>
+    <string name="popup_addnetwork_title">Add network</string>
+    <string name="popup_addnetwork_message">Network SSID</string>
+    <string name="popup_network_modify_message">Password</string>
+</resources>

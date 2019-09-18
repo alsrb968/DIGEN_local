@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:layout_marginTop="20dp"
+    android:background="@android:color/transparent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="- CPU alive check mode"
+            android:textColor="#ffffff"
+            android:textSize="16dp" />
+
+        <Switch
+            android:id="@+id/switch_cpu_alive_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:switchMinWidth="56dp"
+            android:textOff="OFF"
+            android:textOn="ON"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="23dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- MCU alive check mode"
+            android:textColor="#ffffff"
+            android:textSize="16dp" />
+
+        <Switch
+            android:id="@+id/switch_mcu_alive_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:switchMinWidth="56dp"
+            android:textOff="OFF"
+            android:textOn="ON"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+</LinearLayout>

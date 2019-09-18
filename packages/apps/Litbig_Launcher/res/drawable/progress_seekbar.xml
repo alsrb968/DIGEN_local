@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item
+        android:id="@+id/background"
+        android:drawable="@drawable/bg_vol_bar">
+        
+        <size 
+            android:height="4dp"/>
+        
+    </item>
+    <item android:id="@+id/progress">
+        <clip android:drawable="@drawable/vol_gauge"/>
+    </item>
+
+</layer-list>

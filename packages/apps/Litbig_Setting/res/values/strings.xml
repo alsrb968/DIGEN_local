@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">Litbig_Setting</string>
+
+    <string name="setting">설정</string>
+    
+    <!-- setting screen -->
+    <string name="set_screen_brightness">화면 밝기</string>
+    <string name="msg_screen_brightness">화면의 밝기를 설정합니다.</string>
+    <string name="set_screen_contrast">화면 설정</string>
+    <string name="msg_screen_contrast">채도, 명도, 색상을 조절할 수 있습니다.</string>
+    <string name="set_screen_brightness_auto_control">자동 화면 밝기 설정</string>
+    <string name="msg_screen_brightness_auto_control">화면의 밝기를 자동(ON), 수동(OFF)으로 변경합니다.</string>
+    
+    <string name="dlg_title_contrast">Contrast</string>
+    <string name="dlg_msg_contrast">명암 대비를 조절합니다. 범위 0 ~ 100</string>
+    <string name="dlg_title_brightness">Brightness</string>
+    <string name="dlg_msg_brightness">밝기를 조절합니다. 범위 0 ~ 100</string>
+    <string name="dlg_title_hue">Hue</string>
+    <string name="dlg_msg_hue">색조를 조절합니다. 범위 0 ~ 100</string>
+    
+    <string name="set_screen_night_brightness">야간 화면 밝기 설정</string>
+    <string name="msg_screen_night_brightness">야간의 화면 밝기를 설정합니다.</string>
+    <string name="set_night_start_time">야간 시작 시간 설정</string>
+    <string name="msg_night_start_time">야간이 시작되는 시간을 설정합니다.</string>
+    <string name="set_night_finish_time">야간 종료 시간 설정</string>
+    <string name="msg_night_finish_time">야간이 종료되는 시간을 설정합니다.</string>
+    
+    <!-- setting network -->
+    <string name="wifi">Wi-Fi</string>
+    <string name="bluetooth">Bluetooth</string>
+    
+    <string name="bluetooth_state_pairing">페어링 중</string>
+    <string name="bluetooth_state_connecting">연결 중</string>
+    <string name="bluetooth_state_connected">연결됨</string>
+    <string name="bluetooth_state_disconnecting">연결 헤제 중</string>
+    <string name="bluetooth_state_connect_fail">연결 실패</string>
+    
+	<string name="bluetooth_title_new_device">연결가능한 디바이스</string>
+	<string name="bluetooth_title_paired_device">페어링된 디바이스</string>
+	<string name="bluetooth_connect_fail">블루투스 연결에 실패하였습니다.\n블루투스 장비가 오디오 출력장치인지 확인해 주세요.</string>
+    
+    <!-- setting system -->
+    <string name="nodel_name">모델명</string>
+    <string name="fw_version">F/W 버전</string>
+    <string name="serial_number">S/N</string>
+    <string name="mcu_version">MCU 버전</string>
+    <string name="cas_id">CAS ID</string>
+    
+    <string name="fw_update">F/W 업데이트</string>
+    <string name="reboot_device">시스템 재시작</string>
+    <string name="reset_setting">공장 초기화</string>
+    
+    <string name="toast_no_update_file">업데이트 파일이 존재하지 않습니다. SD카드를 확인해주세요.</string>
+    <string name="toast_enabled_eng_mode">엔지니어링 모드 진입을 활성화 합니다.</string>
+    <string name="toast_enter_eng_mode">엔지니어링 모드로 진입합니다.. %1$d</string>
+    <string name="dlg_update_title">업데이트</string>
+    <string name="dlg_update_msg">업데이트를 진행 하시겠습니까?</string>
+    
+    <string name="dlg_reset_title">초기화</string>
+    <string name="dlg_reset_msg">공장 초기화를 진행 하시겠습니까?\n</string>
+    
+    <string name="dlg_reboot_title">재시작</string>
+    <string name="dlg_reboot_msg">시스템 재시작을 진행 하시겠습니까?\n</string>
+    
+    <string name="on">켬</string>
+    <string name="off">끔</string>
+    
+    <string name="hour">시</string>
+    
+	<!-- wifi connector -->
+	<string name="wifi_warning">Wi-Fi로 휴대폰과 연결하면 데이터요금이 발생할 수 있습니다.</string>
+	<string name="wifi_available_device">Wi-Fi로 연결 가능한 디바이스</string>
+	
+    <string name="wifi_con_title">Wi-Fi Connector</string>
+    <string name="wifi_con_scan_result">Wi-Fi로 연결 가능한 디바이스</string>
+    <string name="wifi_con_warning">Wi-Fi로 휴대폰과 내비게이션을 연결하면\n데이터 요금이 발생할 수 있습니다.</string>
+	<string name="wifi_con_scanning">Wi-Fi 검색 중...</string>
+	<string name="wifi_con_state_off">사용 가능한 네트워크를 보려면 우측 상단의 버튼을\n눌러 WiFi를 켜세요.</string>
+	
+	<string name="wifi_disabled_password_failure">인증 문제</string>
+	<string name="wifi_disabled_network_failure">인터넷 접속 불량 방지</string>
+	<string name="wifi_disabled_generic">사용 중지됨</string>
+	<string name="wifi_not_in_range">범위 내에 없음</string>
+	<string name="wifi_remembered">저장됨</string>
+	<string name="wifi_secured_first_item">"<xliff:g id="WIFI_SECURITY_SHORT">%1$s</xliff:g>(으)로 보안"</string>
+	<string name="wifi_secured_second_item">" <xliff:g id="WIFI_SECURITY_SHORT">%1$s</xliff:g>(으)로 보안"</string>
+	<string name="wifi_wps_available_first_item">"WPS 사용 가능"</string>
+	<string name="wifi_wps_available_second_item">" (WPS 사용 가능)"</string>
+	
+	<string name="wifi_connect">연결</string>
+	<string name="wifi_forget">저장 안함</string>
+	
+	<string name="wifi_text_status">상태</string>
+	<string name="wifi_text_signal">신호 강도</string>
+	<string name="wifi_text_link_speed">링크 속도</string>
+	<string name="wifi_text_ip_address">IP 주소</string>
+	<string name="wifi_text_secure">보안</string>
+	
+    <string name="wifi_security_short_wep">WEP</string>
+    <string name="wifi_security_short_wpa">WPA</string>
+    <string name="wifi_security_short_wpa2">WPA2</string>
+    <string name="wifi_security_short_wpa_wpa2">WPA/WPA2</string>
+    <string name="wifi_security_short_psk_generic">@string/wifi_security_short_wpa_wpa2</string>
+    <string name="wifi_security_short_eap">802.1x</string>
+    
+	<string name="wifi_security_none">None</string>
+	
+	<string name="wifi_security_wep">WEP</string>
+	<string name="wifi_security_wpa">WPA PSK</string>
+	<string name="wifi_security_wpa2">WPA2 PSK</string>
+	<string name="wifi_security_wpa_wpa2">WPA/WPA2 PSK</string>
+	<string name="wifi_security_psk_generic">@string/wifi_security_wpa_wpa2</string>
+	<string name="wifi_security_eap">802.1x EAP</string>
+	
+	<string name="wifi_disconnected">Wi-Fi연결이 해제되었습니다.</string>
+	<string name="wifi_connected"><xliff:g id="wifi_ssid">WiFi네트워크 %s로 연결되었습니다.</xliff:g></string>
+	
+	<string name="wifi_toast_lack_password_length">"비밀번호는 8자 ~ 63자를\n입력하여 주세요."</string>
+	<string name="wifi_toast_msg_password_incorrect">"비밀번호가 일치하지 않습니다."</string>
+	
+	<string name="show_password">비밀번호 표시</string>
+	<string name="auto_reconnect">자동으로 다시 연결</string>
+    
+	<string name="hint_password">비밀번호를 입력하세요</string>
+	
+	<string name="ok">확인</string>
+	<string name="cancel">취소</string>
+	<string name="password">비밀번호</string>
+	
+	<string name="wifi_con_dialog_title">Wi-Fi 연결</string>
+	
+	<!-- eng mode -->
+	<string name="eng_mcu_test">Change Power Supply Mode</string>
+	<string name="eng_development_adb">Development (ADB)</string>
+	<string name="eng_log_dump">Log Dump</string>
+	<string name="eng_set_off_alive_check">Change Alive Check Mode</string>
+	<string name="eng_make_qb_image">Make Quick Boot Image</string>
+	<string name="eng_production_test_program">Production Test Program</string>
+	<string name="eng_production_test_lcd">LCD Test</string>
+	<string name="eng_production_test_touch">Touch Test</string>
+	<string name="eng_production_test_storage">Storage Test</string>
+	<string name="eng_production_test_audio">Audio Test</string>
+	<string name="eng_download_mode">Download Mode</string>
+	
+	<string name="test_mode_sdcard_1">SD CARD1</string>
+	<string name="test_mode_sdcard_2">SD CARD2</string>
+	<string name="test_mode_sdcard_3">USB1</string>
+	<string name="test_mode_sdcard_4">USB2</string>
+	<string name="test_mode_play_sd1">SD1 재생</string>
+	<string name="test_mode_play_sd2">SD2 재생</string>
+	<string name="test_mode_play_sd3">USB1 재생</string>
+	<string name="test_mode_play_sd4">USB2 재생</string>
+	<string name="test_mode_do_play">재생하기</string>
+	<string name="test_mode_no_available_file">재생 가능한 파일이 없습니다.</string>
+	<string name="test_mode_no_playable_file">재생할 수 없는 동영상 입니다.</string>
+
+	<string name="device_normal">정상입니다.</string>
+	<string name="device_abnormal_or_eject_sd1"	>비정상/SD 카드1이 분리되었습니다.</string>
+	<string name="device_abnormal_or_eject_sd2"	>비정상/SD 카드2가 분리되었습니다.</string>
+	<string name="device_abnormal_or_eject_sd3"	>비정상/USB1이 분리되었습니다.</string>
+	<string name="device_abnormal_or_eject_sd4"	>비정상/USB2가 분리되었습니다.</string>
+</resources>

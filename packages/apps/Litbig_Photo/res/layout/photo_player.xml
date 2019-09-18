@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_image">
+    <FrameLayout android:id="@+id/image_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black" />
+    <ImageView android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside" />
+    <FrameLayout android:id="@+id/touch_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00FFFFFF" />
+    <LinearLayout android:id="@+id/info_and_controller"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2" />
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="52"
+            android:orientation="horizontal" >
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="40" />
+            <LinearLayout 
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="90" 
+                android:orientation="horizontal"
+                android:gravity="left|center_vertical" >
+                <TextView android:id="@+id/current_index"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true" />
+                <TextView android:id="@+id/total_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true" />
+            </LinearLayout>
+            <TextView android:id="@+id/title_text"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="760"
+                android:ellipsize="end"
+                android:gravity="left|center_vertical" />
+            <ImageButton android:id="@+id/list_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="52" 
+                android:singleLine="true"
+                android:src="@drawable/btn_vlist_click"
+                android:background="@android:color/transparent" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6" />
+            <ImageButton android:id="@+id/shuffle_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="52"
+                android:src="@drawable/btn_shuffle_off_click"
+                android:background="@android:color/transparent" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="24" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="395" />
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="62"
+            android:orientation="horizontal" >
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="380" />
+            <ImageButton android:id="@+id/previous_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="52" 
+                android:src="@drawable/btn_prev_click"
+                android:background="@android:color/transparent" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="49" />
+            <ImageButton android:id="@+id/play_pause_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="62"
+                android:background="@android:color/transparent" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="49" />
+            <ImageButton android:id="@+id/next_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="52" 
+                android:src="@drawable/btn_next_click"
+                android:background="@android:color/transparent" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="380" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="89" />
+    </LinearLayout>
+</FrameLayout>

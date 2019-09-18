@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">AutoLauncher</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="month">월</string>
+    <string name="day">일</string>
+    <string name="temperature">temperature</string>
+
+    <!-- Text Buttons -->
+    <string name="btn_dmb">DMB</string>
+    <string name="btn_movie">Movie</string>
+    <string name="btn_music">Music</string>
+    <string name="btn_miracast">Miracast</string>
+    <string name="btn_hdmi">HDMI</string>
+    <string name="btn_apps">Apps</string>
+
+    <string name="device_name_sdcard">SD카드</string>
+    <string name="device_name_usb">USB</string>
+    <string name="noti_text_preparing"><xliff:g id="DEVICE_NAME">%s</xliff:g> 준비중</string>
+    <string name="no_playable_file">재생가능한 파일이 없습니다.\n메모리 카드를 확인해주세요.</string>
+    <string name="media_scanning">미디어 스캔 중입니다.\n잠시만 기다려주세요.</string>
+    <string name="storage_not_prepared">메모리 카드 확인중입니다.\n잠시만 기다려주세요.</string>
+
+    <string name="title_brightness_dialog">Adjust Screen Brightness</string>
+
+</resources>
