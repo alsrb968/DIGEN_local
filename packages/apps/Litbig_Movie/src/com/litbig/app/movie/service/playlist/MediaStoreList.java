@@ -67,15 +67,15 @@ public class MediaStoreList {
 	}
 
 	public int getPlayingIndex(boolean refresh) {
-		if (true == refresh) {
+		if (refresh) {
 			int totalCount = getTotalCount(true);
 			Cursor cursor = getCursor(true);
 			if (0 < totalCount) {
 				String track = mPlayer.getLastTrack();
-				if ((null != track) && (false == track.isEmpty())) {
+				if ((null != track) && (!track.isEmpty())) {
 					for (int index = 0; index < totalCount; index++) {
 						cursor.moveToPosition(index);
-						if (true == track.equals(cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA)))) {
+						if (track.equals(cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA)))) {
 							mPlayingIndex = cursor.getPosition();
 							break;
 						}
@@ -101,7 +101,7 @@ public class MediaStoreList {
 		if ((null != cursor) && (0 <= index) && (totalCount > index)) {
 			cursor.moveToPosition(index);
 			String title = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.TITLE));
-			if ((null == title) || (true == title.isEmpty())) {
+			if ((null == title) || (title.isEmpty())) {
 				String name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
 				title = name.substring(name.lastIndexOf('/') + 1, name.lastIndexOf('.'));
 			}
@@ -134,7 +134,7 @@ public class MediaStoreList {
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inSampleSize = 1;
 			options.inJustDecodeBounds = false;
-			if (true == isScale) {
+			if (isScale) {
 //				bitmap = ThumbnailUtils.createVideoThumbnail(cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA)), MediaStore.Video.Thumbnails.MICRO_KIND);
 				bitmap = MediaStore.Video.Thumbnails.getThumbnail(mService.getContentResolver(), (long)id, MediaStore.Video.Thumbnails.MICRO_KIND, options);
 			} else {
@@ -207,7 +207,7 @@ public class MediaStoreList {
 	}
 
 	public void requestList(int listType, String subCategory) {
-		if (false == mMakeList) {
+		if (!mMakeList) {
 			mMakeList = true;
 			switch (listType) {
 			case MovieUtils.ListType.NOW_PLAYING :
@@ -218,15 +218,19 @@ public class MediaStoreList {
 						public void run() {
 							int[] totalTime = new int[mNowPlayingTotalCount];
 							int[] fileCount = new int[mNowPlayingTotalCount];
+							int[] width = new int[mNowPlayingTotalCount];
+							int[] height = new int[mNowPlayingTotalCount];
 							for (int index = 0; index < mNowPlayingTotalCount; index++) {
 								totalTime[index] = mNowPlayingTotalTimeList.get(index);
 								fileCount[index] = 0;
+								width[index] = mNowPlayingWidthList.get(index);
+								height[index] = mNowPlayingHeightList.get(index);
 							}
-							responseList(new ListInfo(MovieUtils.ListType.NOW_PLAYING, null, mNowPlayingList.toArray(new String[mNowPlayingTotalCount]), totalTime, fileCount));
+							responseList(new ListInfo(MovieUtils.ListType.NOW_PLAYING, null, mNowPlayingList.toArray(new String[mNowPlayingTotalCount]), totalTime, fileCount, width, height));
 						}
 					}).start();
 				} else {
-					responseList(new ListInfo(MovieUtils.ListType.NOW_PLAYING, null, null, null, null));
+					responseList(new ListInfo(MovieUtils.ListType.NOW_PLAYING, null, null, null, null, null, null));
 				}
 				break;
 			case MovieUtils.ListType.ALL :
@@ -277,7 +281,7 @@ public class MediaStoreList {
 			}
 			break;
 		case MovieUtils.Category.FOLDER :
-			if ((mNowPlayingCategory == category) && (true == subCategory.equals(mNowPlayingSubCategory))) {
+			if ((mNowPlayingCategory == category) && (subCategory.equals(mNowPlayingSubCategory))) {
 				nowPlaying = true;
 			}
 			break;
@@ -298,7 +302,7 @@ public class MediaStoreList {
 			if (mCategory != (Integer)mService.loadPreference(MovieUtils.Preference.CATEGORY)) {
 				mService.savePreference(MovieUtils.Preference.CATEGORY, mCategory);
 			}
-			if (mSubCategory != (String)mService.loadPreference(MovieUtils.Preference.FOLDER_PATH)) {
+			if (mSubCategory != mService.loadPreference(MovieUtils.Preference.FOLDER_PATH)) {
 				mService.savePreference(MovieUtils.Preference.FOLDER_PATH, mSubCategory);
 			}
 			break;
@@ -327,21 +331,21 @@ public class MediaStoreList {
 		private WeakReference<AsyncQueryListener> mListener;
 
 		private class QueryArgs {
-			public Uri uri;
-			public String [] projection;
-			public String selection;
-			public String [] selectionArgs;
-			public String orderBy;
+			Uri uri;
+			String [] projection;
+			String selection;
+			String [] selectionArgs;
+			String orderBy;
 		}
 
-		public NotifyingAsyncQueryHandler(Context context, AsyncQueryListener listener) {
+		NotifyingAsyncQueryHandler(Context context, AsyncQueryListener listener) {
 			super(context.getContentResolver());
 			mContext = context;
-			mListener = new WeakReference<AsyncQueryListener>(listener);
+			mListener = new WeakReference<>(listener);
 		}
 
-		public Cursor doQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String orderBy, boolean async) {
-			if (true == async) {
+		Cursor doQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String orderBy, boolean async) {
+			if (async) {
 				// Get 100 results first, which is enough to allow the user to start scrolling, while still being very fast.
 				Uri limituri = uri.buildUpon().appendQueryParameter("limit", "100").build();
 				QueryArgs args = new QueryArgs();
@@ -390,7 +394,7 @@ public class MediaStoreList {
 	private void makeShuffleList() {
 		int index;
 		if (null == mShuffleList) {
-			mShuffleList = new ArrayList<Integer>();
+			mShuffleList = new ArrayList<>();
 			for (index = 0; index < mNowPlayingTotalCount; index++) {
 				mShuffleList.add(index, index);
 			}
@@ -410,7 +414,7 @@ public class MediaStoreList {
 				mShuffleList.remove(index);
 			}
 		}
-		ArrayList<Integer> shuffleList = new ArrayList<Integer>();
+		ArrayList<Integer> shuffleList = new ArrayList<>();
 		for (index = 0; index < mNowPlayingTotalCount; index++) {
 			shuffleList.add(index, index);
 		}
@@ -467,8 +471,10 @@ public class MediaStoreList {
 	private boolean mRetryQuery = false;
 	private int mNowPlayingCategory = MovieUtils.Category.ALL;
 	private String mNowPlayingSubCategory = null;
-	private ArrayList<String> mNowPlayingList = new ArrayList<String>();
-	private ArrayList<Integer> mNowPlayingTotalTimeList = new ArrayList<Integer>();
+	private ArrayList<String> mNowPlayingList = new ArrayList<>();
+	private ArrayList<Integer> mNowPlayingTotalTimeList = new ArrayList<>();
+	private ArrayList<Integer> mNowPlayingWidthList = new ArrayList<>();
+	private ArrayList<Integer> mNowPlayingHeightList = new ArrayList<>();
 	private Cursor mNowPlayingCursor = null;
 	private int mNowPlayingTotalCount = 0;
 
@@ -487,30 +493,30 @@ public class MediaStoreList {
 			MediaStore.Video.Media.WIDTH, MediaStore.Video.Media.HEIGHT,
 			MediaStore.Video.Media.DATA, MediaStore.Video.Media.DURATION
 		};
-		String where = "";
+		StringBuilder where = new StringBuilder();
 		String[] selectionArgs = null;
-		String orderBy = getOrderbyFromLocalization(MediaStore.Video.Media.TITLE);
-		ArrayList<String> args = new ArrayList<String>();
+		String orderBy = getOrderByFromLocalization(MediaStore.Video.Media.TITLE);
+		ArrayList<String> args = new ArrayList<>();
 		if (MovieUtils.Category.FOLDER == mNowPlayingCategory) {
-			where += MediaStore.Video.Media.DATA + " like ?";
+			where.append(MediaStore.Video.Media.DATA + " like ?");
 			args.add(mNowPlayingSubCategory + "%");
-			selectionArgs = args.toArray(new String[args.size()]);
+			selectionArgs = args.toArray(new String[0]);
 		} else if (MovieUtils.Category.ALL == mNowPlayingCategory) {
 			ArrayList<String> enableStorage = MediaStorage.getEnableStorage(mService);
 			if (0 < enableStorage.size()) {
-				where += MediaStore.Video.Media.DATA + " like ?";
+				where.append(MediaStore.Video.Media.DATA + " like ?");
 				args.add(enableStorage.get(0) + "%");
 				for (int index = 1; index < enableStorage.size(); index++) {
-					where += " OR " + MediaStore.Video.Media.DATA + " like ?";
+					where.append(" OR " + MediaStore.Video.Media.DATA + " like ?");
 					args.add(enableStorage.get(index) + "%");
 				}
 			}
-			selectionArgs = args.toArray(new String[args.size()]);
+			selectionArgs = args.toArray(new String[0]);
 		} else {
 			where = null;
 		}
-		if (true == directQuery) {
-			Cursor cursor = mService.getContentResolver().query(uri, projection, where, selectionArgs, orderBy);
+		if (directQuery) {
+			Cursor cursor = mService.getContentResolver().query(uri, projection, where.toString(), selectionArgs, orderBy);
 			if ((null != cursor) && (0 < cursor.getCount())) {
 				mNowPlayingQueryState = QUERY_STATE_COMPLETED;
 				mNowPlayingCursor = cursor;
@@ -519,13 +525,14 @@ public class MediaStoreList {
 				for (int count = 0; count < mNowPlayingTotalCount; count++) {
 					mNowPlayingCursor.moveToPosition(count);
 					String track = mNowPlayingCursor.getString(mNowPlayingCursor.getColumnIndex(MediaStore.Video.Media.TITLE));
-					if ((null == track) || (true == track.isEmpty())) {
+					if ((null == track) || (track.isEmpty())) {
 						String name = mNowPlayingCursor.getString(mNowPlayingCursor.getColumnIndex(MediaStore.Video.Media.DATA));
 						track = name.substring(name.lastIndexOf('/') + 1, name.lastIndexOf('.'));
 					}
 					mNowPlayingList.add(track);
-
 					mNowPlayingTotalTimeList.add(mNowPlayingCursor.getInt(mNowPlayingCursor.getColumnIndex(MediaStore.Video.Media.DURATION)));
+					mNowPlayingWidthList.add(mNowPlayingCursor.getInt(mNowPlayingCursor.getColumnIndex(MediaStore.Video.Media.WIDTH)));
+					mNowPlayingHeightList.add(mNowPlayingCursor.getInt(mNowPlayingCursor.getColumnIndex(MediaStore.Video.Media.HEIGHT)));
 				}
 				processAfterQuery();
 				mRetryQuery = false;
@@ -538,7 +545,7 @@ public class MediaStoreList {
 				mRetryQuery = false;
 			}
 		} else {
-			(new NotifyingAsyncQueryHandler(mService, mNowPlayingListener)).doQuery(uri, projection, where, selectionArgs, orderBy, true);
+			(new NotifyingAsyncQueryHandler(mService, mNowPlayingListener)).doQuery(uri, projection, where.toString(), selectionArgs, orderBy, true);
 		}
 	}
 
@@ -560,19 +567,21 @@ public class MediaStoreList {
 					for (; count < mNowPlayingTotalCount; count++) {
 						mNowPlayingCursor.moveToPosition(count);
 						String track = mNowPlayingCursor.getString(mNowPlayingCursor.getColumnIndex(MediaStore.Video.Media.TITLE));
-						if ((null == track) || (true == track.isEmpty())) {
+						if ((null == track) || (track.isEmpty())) {
 							String name = mNowPlayingCursor.getString(mNowPlayingCursor.getColumnIndex(MediaStore.Video.Media.DATA));
 							track = name.substring(name.lastIndexOf('/') + 1, name.lastIndexOf('.'));
 						}
 						mNowPlayingList.add(track);
 						mNowPlayingTotalTimeList.add(mNowPlayingCursor.getInt(mNowPlayingCursor.getColumnIndex(MediaStore.Video.Media.DURATION)));
+						mNowPlayingWidthList.add(mNowPlayingCursor.getInt(mNowPlayingCursor.getColumnIndex(MediaStore.Video.Media.WIDTH)));
+						mNowPlayingHeightList.add(mNowPlayingCursor.getInt(mNowPlayingCursor.getColumnIndex(MediaStore.Video.Media.HEIGHT)));
 					}
 					if ((0 < token) || (100 > mNowPlayingTotalCount)) {
 						processAfterQuery();
 					}
 				}
 				mRetryQuery = false;
-			} else if ((MovieUtils.Category.ALL != mNowPlayingCategory) && (false == mRetryQuery)) {
+			} else if ((MovieUtils.Category.ALL != mNowPlayingCategory) && (!mRetryQuery)) {
 				mRetryQuery = true;
 				mService.savePreference(MovieUtils.Preference.CATEGORY, MovieUtils.Category.ALL);
 				requestNowPlaying();
@@ -589,8 +598,10 @@ public class MediaStoreList {
 
 	// ----------
 	// CategoryTrackList internal functions
-	private ArrayList<String> mCategoryTrackList = new ArrayList<String>();
-	private ArrayList<Integer> mCategoryTrackTotalTimeList = new ArrayList<Integer>();
+	private ArrayList<String> mCategoryTrackList = new ArrayList<>();
+	private ArrayList<Integer> mCategoryTrackTotalTimeList = new ArrayList<>();
+	private ArrayList<Integer> mCategoryTrackWidthList = new ArrayList<>();
+	private ArrayList<Integer> mCategoryTrackHeightList = new ArrayList<>();
 	private Cursor mCategoryTrackCursor = null;
 	private int mCategoryTrackTotalCount = 0;
 	private int mCategory = MovieUtils.Category.ALL;
@@ -605,29 +616,29 @@ public class MediaStoreList {
 			MediaStore.Video.Media.WIDTH, MediaStore.Video.Media.HEIGHT,
 			MediaStore.Video.Media.DATA, MediaStore.Video.Media.DURATION
 		};
-		String where = "";
+		StringBuilder where = new StringBuilder();
 		String[] selectionArgs = null;
-		String orderBy = getOrderbyFromLocalization(MediaStore.Video.Media.TITLE);
-		ArrayList<String> args = new ArrayList<String>();
+		String orderBy = getOrderByFromLocalization(MediaStore.Video.Media.TITLE);
+		ArrayList<String> args = new ArrayList<>();
 		if (MovieUtils.Category.FOLDER == mCategory) {
-			where += MediaStore.Video.Media.DATA + " like ?";
+			where.append(MediaStore.Video.Media.DATA + " like ?");
 			args.add(mSubCategory + "%");
-			selectionArgs = args.toArray(new String[args.size()]);
+			selectionArgs = args.toArray(new String[0]);
 		} else if (MovieUtils.Category.ALL == mCategory) {
 			ArrayList<String> enableStorage = MediaStorage.getEnableStorage(mService);
 			if (0 < enableStorage.size()) {
-				where += MediaStore.Video.Media.DATA + " like ?";
+				where.append(MediaStore.Video.Media.DATA + " like ?");
 				args.add(enableStorage.get(0) + "%");
 				for (int index = 1; index < enableStorage.size(); index++) {
-					where += " OR " + MediaStore.Video.Media.DATA + " like ?";
+					where.append(" OR " + MediaStore.Video.Media.DATA + " like ?");
 					args.add(enableStorage.get(index) + "%");
 				}
 			}
-			selectionArgs = args.toArray(new String[args.size()]);
+			selectionArgs = args.toArray(new String[0]);
 		} else {
 			where = null;
 		}
-		(new NotifyingAsyncQueryHandler(mService, mCategoryTrackListener)).doQuery(uri, projection, where, selectionArgs, orderBy, true);
+		(new NotifyingAsyncQueryHandler(mService, mCategoryTrackListener)).doQuery(uri, projection, where.toString(), selectionArgs, orderBy, true);
 	}
 
 	private AsyncQueryListener mCategoryTrackListener = new AsyncQueryListener() {
@@ -644,32 +655,38 @@ public class MediaStoreList {
 					for (; count < mCategoryTrackTotalCount; count++) {
 						mCategoryTrackCursor.moveToPosition(count);
 						String track = mCategoryTrackCursor.getString(mCategoryTrackCursor.getColumnIndex(MediaStore.Video.Media.TITLE));
-						if ((null == track) || (true == track.isEmpty())) {
+						if ((null == track) || (track.isEmpty())) {
 							String name = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
 							track = name.substring(name.lastIndexOf('/') + 1, name.lastIndexOf('.'));
 						}
 						mCategoryTrackList.add(track);
 						mCategoryTrackTotalTimeList.add(mCategoryTrackCursor.getInt(mCategoryTrackCursor.getColumnIndex(MediaStore.Video.Media.DURATION)));
+						mCategoryTrackWidthList.add(mCategoryTrackCursor.getInt(mCategoryTrackCursor.getColumnIndex(MediaStore.Video.Media.WIDTH)));
+						mCategoryTrackHeightList.add(mCategoryTrackCursor.getInt(mCategoryTrackCursor.getColumnIndex(MediaStore.Video.Media.HEIGHT)));
 					}
 				}
 				if ((0 < token) || (100 > mCategoryTrackTotalCount)) {
 					int[] totalTime = new int[mCategoryTrackTotalCount];
 					int[] fileCount = new int[mCategoryTrackTotalCount];
+					int[] width = new int[mCategoryTrackTotalCount];
+					int[] height = new int[mCategoryTrackTotalCount];
 					for (int index = 0; index < mCategoryTrackTotalCount; index++) {
 						totalTime[index] = mCategoryTrackTotalTimeList.get(index);
 						fileCount[index] = 0;
+						width[index] = mCategoryTrackWidthList.get(index);
+						height[index] = mCategoryTrackHeightList.get(index);
 					}
-					responseList(new ListInfo(getListType(), mSubCategory, mCategoryTrackList.toArray(new String[mCategoryTrackTotalCount]), totalTime, fileCount));
+					responseList(new ListInfo(getListType(), mSubCategory, mCategoryTrackList.toArray(new String[mCategoryTrackTotalCount]), totalTime, fileCount, width, height));
 				}
 			} else {
 				mCategoryTrackCursor = null;
 				mCategoryTrackTotalCount = 0;
-				responseList(new ListInfo(getListType(), mSubCategory, null, null, null));
+				responseList(new ListInfo(getListType(), mSubCategory, null, null, null, null, null));
 			}
 		}
 	};
 
-	private String getOrderbyFromLocalization(String name) {
+	private String getOrderByFromLocalization(String name) {
 //		Locale systemLocale = mService.getResources().getConfiguration().locale;
 		String orderBy = "";
 //		if (systemLocale.getLanguage().contains("ko")) {
@@ -701,9 +718,9 @@ public class MediaStoreList {
 
 	// ----------
 	// CategoryList internal functions
-	private ArrayList<String> mCategoryList = new ArrayList<String>();
+	private ArrayList<String> mCategoryList = new ArrayList<>();
 	private SparseIntArray mCategoryFileCount = new SparseIntArray();
-	private HashMap<String, Integer> mFolderList = new HashMap<String, Integer>();
+	private HashMap<String, Integer> mFolderList = new HashMap<>();
 
 	private void requestFolderCategory() {
 		mCategoryList.clear();
@@ -713,21 +730,21 @@ public class MediaStoreList {
 		String[] projection = new String[] {
 			MediaStore.Video.Media._ID, MediaStore.Video.Media.DATA
 		};
-		String where = "";
+		StringBuilder where = new StringBuilder();
 		String[] selectionArgs;
-		String orderBy = getOrderbyFromLocalization(MediaStore.Video.Media.DATA);
+		String orderBy = getOrderByFromLocalization(MediaStore.Video.Media.DATA);
 		ArrayList<String> enableStorage = MediaStorage.getEnableStorage(mService);
-		ArrayList<String> args = new ArrayList<String>();
+		ArrayList<String> args = new ArrayList<>();
 		if (0 < enableStorage.size()) {
-			where += MediaStore.Video.Media.DATA + " like ?";
+			where.append(MediaStore.Video.Media.DATA + " like ?");
 			args.add(enableStorage.get(0) + "%");
 			for (int index = 1; index < enableStorage.size(); index++) {
-				where += " OR " + MediaStore.Video.Media.DATA + " like ?";
+				where.append(" OR " + MediaStore.Video.Media.DATA + " like ?");
 				args.add(enableStorage.get(index) + "%");
 			}
 		}
-		selectionArgs = args.toArray(new String[args.size()]);
-		(new NotifyingAsyncQueryHandler(mService, mFolderQueryListener)).doQuery(uri, projection, where, selectionArgs, orderBy, true);
+		selectionArgs = args.toArray(new String[0]);
+		(new NotifyingAsyncQueryHandler(mService, mFolderQueryListener)).doQuery(uri, projection, where.toString(), selectionArgs, orderBy, true);
 	}
 
 	private AsyncQueryListener mFolderQueryListener = new AsyncQueryListener() {
@@ -747,12 +764,12 @@ public class MediaStoreList {
 							String category = data.substring(0, data.lastIndexOf("/"));
 							int list = 0;
 							for (int index = 0; index < mCategoryList.size(); index++) {
-								if (true == category.startsWith(mCategoryList.get(index))) {
+								if (category.startsWith(mCategoryList.get(index))) {
 									mCategoryFileCount.put(index, mCategoryFileCount.get(index) + 1);
 								}
 							}
 							while (list < mCategoryList.size()) {
-								if (true == category.equals(mCategoryList.get(list))) {
+								if (category.equals(mCategoryList.get(list))) {
 									break;
 								}
 								list++;
@@ -771,14 +788,18 @@ public class MediaStoreList {
 					int size = mCategoryList.size();
 					int[] totalTime = new int[size];
 					int[] fileCount = new int[size];
+					int[] width = new int[size];
+					int[] height = new int[size];
 					for (int index = 0; index < size; index++) {
 						totalTime[index] = 0;
 						fileCount[index] = mCategoryFileCount.get(mFolderList.get(mCategoryList.get(index)));
+						width[index] = 0;
+						height[index] = 0;
 					}
-					responseList(new ListInfo(MovieUtils.ListType.FOLDER, null, mCategoryList.toArray(new String[size]), totalTime, fileCount));
+					responseList(new ListInfo(MovieUtils.ListType.FOLDER, null, mCategoryList.toArray(new String[size]), totalTime, fileCount, width, height));
 				}
 			} else {
-				responseList(new ListInfo(MovieUtils.ListType.FOLDER, null, null, null, null));
+				responseList(new ListInfo(MovieUtils.ListType.FOLDER, null, null, null, null, null, null));
 			}
 		}
 	};
@@ -799,8 +820,8 @@ public class MediaStoreList {
 	private boolean mMakeList = false;
 
 	private void processAfterQuery() {
-		if (true == mScanFinish) {
-			if (true == mActivePlayer) {
+		if (mScanFinish) {
+			if (mActivePlayer) {
 				mPlayer.activePlayer();
 				mActivePlayer = false;
 			} else {
@@ -810,10 +831,10 @@ public class MediaStoreList {
 			}
 			requestList(MovieUtils.ListType.NOW_PLAYING, null);
 			mScanFinish = false;
-		} else if (true == mActivePlayer) {
+		} else if (mActivePlayer) {
 			mPlayer.activePlayer();
 			mActivePlayer = false;
-		} else if (true == mChangeNowPlaying) {
+		} else if (mChangeNowPlaying) {
 			getPlayingIndex(true);
 			mChangeNowPlaying = false;
 		}
@@ -834,17 +855,17 @@ public class MediaStoreList {
 	}
 
 	private int getTotalCount(boolean isNowPlaying) {
-		if (true == mChangeNowPlaying) {
+		if (mChangeNowPlaying) {
 			isNowPlaying = false;
 		}
-		return (true == isNowPlaying) ? mNowPlayingTotalCount : mCategoryTrackTotalCount;
+		return (isNowPlaying) ? mNowPlayingTotalCount : mCategoryTrackTotalCount;
 	}
 
 	private Cursor getCursor(boolean isNowPlaying) {
-		if (true == mChangeNowPlaying) {
+		if (mChangeNowPlaying) {
 			isNowPlaying = false;
 		}
-		return (true == isNowPlaying) ? mNowPlayingCursor : mCategoryTrackCursor;
+		return (isNowPlaying) ? mNowPlayingCursor : mCategoryTrackCursor;
 	}
 
 	private void responseList(ListInfo info) {

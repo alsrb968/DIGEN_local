@@ -572,8 +572,8 @@ public class AndroidView extends MovieView {
 	// ----------
 	// Movie List View
 	private View mMovieListView;
-	private ImageButton mCategoryAllButton;
-	private ImageButton mCategoryFolderButton;
+//	private ImageButton mCategoryAllButton;
+//	private ImageButton mCategoryFolderButton;
 	private ImageButton mGridChangeView;
 	private ImageButton mListChangeView;
 	private LinearLayout mUpstep;
@@ -590,10 +590,10 @@ public class AndroidView extends MovieView {
 	private void initListView() {
 		mMovieListView = mLayoutInflater.inflate(R.layout.movie_list, mActivity.getRootLayout(), false);
 		mActivity.getRootLayout().addView(mMovieListView);
-		mCategoryAllButton = mMovieListView.findViewById(R.id.category_all_button);
-		mCategoryAllButton.setOnClickListener(mClickListener);
-		mCategoryFolderButton = mMovieListView.findViewById(R.id.category_folder_button);
-		mCategoryFolderButton.setOnClickListener(mClickListener);
+//		mCategoryAllButton = mMovieListView.findViewById(R.id.category_all_button);
+//		mCategoryAllButton.setOnClickListener(mClickListener);
+//		mCategoryFolderButton = mMovieListView.findViewById(R.id.category_folder_button);
+//		mCategoryFolderButton.setOnClickListener(mClickListener);
 		mGridChangeView = mMovieListView.findViewById(R.id.grid_change_view);
 		mGridChangeView.setOnClickListener(mClickListener);
 		mListChangeView = mMovieListView.findViewById(R.id.list_change_view);
@@ -610,18 +610,14 @@ public class AndroidView extends MovieView {
 	}
 
 	private void selectCategoryButton(int category) {
-		switch (category) {
-		case MovieUtils.Category.ALL :
-			mCategoryAllButton.setSelected(true);
-			mCategoryFolderButton.setSelected(false);
-			break;
-		case MovieUtils.Category.FOLDER :
-			mCategoryAllButton.setSelected(false);
-			mCategoryFolderButton.setSelected(true);
-			break;
-		default :
-			break;
-		}
+		//		case MovieUtils.Category.ALL :
+		//			mCategoryAllButton.setSelected(true);
+		//			mCategoryFolderButton.setSelected(false);
+		//			break;
+		//		case MovieUtils.Category.FOLDER :
+		//			mCategoryAllButton.setSelected(false);
+		//			mCategoryFolderButton.setSelected(true);
+		//			break;
 	}
 
 	private void setItemView() {
@@ -736,33 +732,34 @@ public class AndroidView extends MovieView {
 	// ----------
 	// ItemView
 	private class ItemView {
-		public static final int LIST = 0;
-		public static final int GRID = 1;
+		static final int LIST = 0;
+		static final int GRID = 1;
 	}
 
 	// ----------
 	// ViewHolder
 	private class ListViewHolder {
-		public LinearLayout folder;
+		LinearLayout folder;
 		public LinearLayout item;
-		public ImageView thumbnail;
-		public TextView title;
-		public TextView info;
-		public ImageView playing;
+		ImageView thumbnail;
+		TextView title;
+		TextView info;
+		TextView resolution;
+		ImageView playing;
 	}
 
 	private class GridViewHolder {
-		public ImageView thumbnail;
-		public LinearLayout folder;
-		public ImageView folderIcon;
-		public TextView title;
+		ImageView thumbnail;
+		LinearLayout folder;
+		ImageView folderIcon;
+		TextView title;
 	}
 
 	// ----------
 	// ListAdapter
 	private class ListItemAdapter extends KoreanIndexerListView.KoreanIndexerAdapter<String> {
 		private ArrayList<String> list;
-		public ListItemAdapter(Context context) {
+		ListItemAdapter(Context context) {
 			super(context, new ArrayList<>(Arrays.asList(mListInfo.getList())));
 			list = new ArrayList<>(Arrays.asList(mListInfo.getList()));
 			mActivity.clearVideoThumbnailBuffer();
@@ -780,25 +777,25 @@ public class AndroidView extends MovieView {
 			holder.title.setTextSize(TypedValue.COMPLEX_UNIT_PX, 18 * mDpRate);
 			holder.info = convertView.findViewById(R.id.list_info);
 			holder.info.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14 * mDpRate);
+			holder.resolution = convertView.findViewById(R.id.list_resolution);
+			holder.resolution.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14 * mDpRate);
 			holder.playing = convertView.findViewById(R.id.list_playing);
 			convertView.setTag(holder);
-			convertView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, (int)(71 * mDpRate)));
+			convertView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, (int)(mItemList.getMeasuredHeight() / 4/* * mDpRate*/)));
 			String getInfo = mListInfo.getList()[position];
-			switch (mListInfo.getListType()) {
-			case MovieUtils.ListType.FOLDER :
+			if (mListInfo.getListType() == MovieUtils.ListType.FOLDER) {
 				String folder = getInfo.substring(getInfo.lastIndexOf("/") + 1);
 				getInfo = setCharset(folder);
 				holder.folder.setVisibility(View.VISIBLE);
 				holder.item.setVisibility(View.GONE);
 				holder.info.setText(mListInfo.getFileCount()[position] + " List");
-				break;
-			default :
+			} else {
 				holder.folder.setVisibility(View.GONE);
 				holder.item.setVisibility(View.VISIBLE);
 				holder.thumbnail.setImageResource(R.drawable.img_thumb);
 				mImageLoader.displayImage(position, holder.thumbnail);
 				holder.info.setText(makeTimeFormat(mListInfo.getTotalTime()[position]));
-				break;
+				holder.resolution.setText(mListInfo.getWidth()[position] + " X " + mListInfo.getHeight()[position]);
 			}
 			holder.title.setText(getInfo);
 			if (isPlayingItem(position)) {
@@ -818,7 +815,7 @@ public class AndroidView extends MovieView {
 	// ----------
 	// GridAdapter
 	private class GridItemAdapter extends ArrayAdapter<String> {
-		public GridItemAdapter(Context context) {
+		GridItemAdapter(Context context) {
 			super(context, R.layout.icon_grid_item, mListInfo.getList());
 			mActivity.clearVideoThumbnailBuffer();
 			mImageLoader.create();
@@ -837,8 +834,7 @@ public class AndroidView extends MovieView {
 			convertView.setTag(holder);
 			convertView.setLayoutParams(new LayoutParams((int)(186 * mDpRate), (int)(140 * mDpRate)));
 			String getInfo = mListInfo.getList()[position];
-			switch (mListInfo.getListType()) {
-			case MovieUtils.ListType.FOLDER :
+			if (mListInfo.getListType() == MovieUtils.ListType.FOLDER) {
 				String folder = getInfo.substring(getInfo.lastIndexOf("/") + 1);
 				getInfo = setCharset(folder);
 				//holder.thumbnail.setImageResource(R.drawable.img_thumb);
@@ -856,8 +852,7 @@ public class AndroidView extends MovieView {
 					holder.thumbnail.setImageResource(R.drawable.ic_folder_click);
 					holder.title.setTextColor(Color.WHITE);
 				}
-				break;
-			default :
+			} else {
 				holder.thumbnail.setImageResource(R.drawable.img_thumb);
 				mImageLoader.displayImage(position, holder.thumbnail);
 				holder.title.setGravity(Gravity.CENTER);
@@ -867,7 +862,6 @@ public class AndroidView extends MovieView {
 				} else {
 					holder.title.setTextColor(Color.WHITE);
 				}
-				break;
 			}
 			holder.title.setText(getInfo);
 			return convertView;
@@ -919,16 +913,16 @@ public class AndroidView extends MovieView {
 			case R.id.repeat_button :
 				setRepeat();
 				break;
-			case R.id.category_all_button :
-				if ((null != mListInfo) && (MovieUtils.ListType.ALL != mListInfo.getListType())) {
-					requestList(MovieUtils.ListType.ALL, null);
-				}
-				break;
-			case R.id.category_folder_button :
-				if ((null != mListInfo) && (MovieUtils.ListType.FOLDER != mListInfo.getListType())) {
-					requestList(MovieUtils.ListType.FOLDER, null);
-				}
-				break;
+//			case R.id.category_all_button :
+//				if ((null != mListInfo) && (MovieUtils.ListType.ALL != mListInfo.getListType())) {
+//					requestList(MovieUtils.ListType.ALL, null);
+//				}
+//				break;
+//			case R.id.category_folder_button :
+//				if ((null != mListInfo) && (MovieUtils.ListType.FOLDER != mListInfo.getListType())) {
+//					requestList(MovieUtils.ListType.FOLDER, null);
+//				}
+//				break;
 			case R.id.grid_change_view :
 				mItemView = ItemView.GRID;
 				setItemView();
@@ -1184,42 +1178,30 @@ public class AndroidView extends MovieView {
 	private SeekBar.OnSeekBarChangeListener mSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-			switch (seekBar.getId()) {
-			case R.id.time_progress :
+			if (seekBar.getId() == R.id.time_progress) {
 				if (MovieUtils.PlayState.PAUSE == getPlayState()) {
 					mCurrentTime.setText(makeTimeFormat(progress));
 				}
-				break;
-			default :
-				break;
 			}
 		}
 
 		@Override
 		public void onStartTrackingTouch(SeekBar seekBar) {
-			switch (seekBar.getId()) {
-			case R.id.time_progress :
+			if (seekBar.getId() == R.id.time_progress) {
 				mTimerHandler.removeMessages(mTimerHandler.MESSAGE_HIDE_INFO_AND_CONTROL);
 				mStopHideTimer = true;
 				mTimerHandler.removeMessages(mTimerHandler.MESSAGE_PLAY_STATE_PAUSE);
 				mCurrentTime.setVisibility(View.VISIBLE);
 				gripTimeProgressBar();
-				break;
-			default :
-				break;
 			}
 		}
 
 		@Override
 		public void onStopTrackingTouch(SeekBar seekBar) {
-			switch (seekBar.getId()) {
-			case R.id.time_progress :
+			if (seekBar.getId() == R.id.time_progress) {
 				mStopHideTimer = false;
 				restartHideTimer();
 				setPlayTimeMS(seekBar.getProgress());
-				break;
-			default :
-				break;
 			}
 		}
 	};
@@ -1274,16 +1256,16 @@ public class AndroidView extends MovieView {
 	private TimerHandler mTimerHandler = new TimerHandler();
 
 	private class TimerHandler extends Handler {
-		public final int MESSAGE_PLAY_STATE_PAUSE = 2001;
-		public final int MESSAGE_START_FAST_FORWARD = 2002;
-		public final int MESSAGE_START_FAST_REWIND = 2003;
-		public final int MESSAGE_RETURN_TO_PLAYING = 2004;
-		public final int MESSAGE_HIDE_INFO_AND_CONTROL = 2005;
+		final int MESSAGE_PLAY_STATE_PAUSE = 2001;
+		final int MESSAGE_START_FAST_FORWARD = 2002;
+		final int MESSAGE_START_FAST_REWIND = 2003;
+		final int MESSAGE_RETURN_TO_PLAYING = 2004;
+		final int MESSAGE_HIDE_INFO_AND_CONTROL = 2005;
 
-		public final int INTERVAL_FOR_BLINK_TIME = 1000;
-		public final int DELAY_FOR_START_FAST = 1500;
-		public final int DELAY_FOR_RETURN_TIME = 5000;
-		public final int DELAY_FOR_HIDE_PLAYER_VIEW = 5000;
+		final int INTERVAL_FOR_BLINK_TIME = 1000;
+		final int DELAY_FOR_START_FAST = 1500;
+		final int DELAY_FOR_RETURN_TIME = 5000;
+		final int DELAY_FOR_HIDE_PLAYER_VIEW = 5000;
 
 		@Override
 		public void handleMessage(Message msg) {
@@ -1339,18 +1321,18 @@ public class AndroidView extends MovieView {
 		private Future<?> runningTaskFuture = null;
 		private Handler handler = new Handler();
 
-		public void create() {
+		void create() {
 			destroy();
 			executorService = Executors.newSingleThreadExecutor();
 		}
 
-		public void destroy() {
+		void destroy() {
 			if ((null != runningTaskFuture) && (!runningTaskFuture.isDone())) {
 				runningTaskFuture.cancel(true);
 			}
 		}
 
-		public void displayImage(int index, ImageView imageView) {
+		void displayImage(int index, ImageView imageView) {
 			imageViews.put(imageView, index);
 			Bitmap bitmap = mActivity.fromVideoThumbnailBuffer(index);
 			if (null != bitmap) {
@@ -1375,9 +1357,9 @@ public class AndroidView extends MovieView {
 
 		private class PhotoToLoad {
 			public int index;
-			public ImageView imageView;
+			ImageView imageView;
 
-			public PhotoToLoad(int index, ImageView imageView) {
+			PhotoToLoad(int index, ImageView imageView) {
 				this.index = index;
 				this.imageView = imageView;
 			}
@@ -1386,7 +1368,7 @@ public class AndroidView extends MovieView {
 		private class PhotosLoader implements Runnable {
 			PhotoToLoad photoToLoad;
 
-			public PhotosLoader(PhotoToLoad photoToLoad) {
+			PhotosLoader(PhotoToLoad photoToLoad) {
 				this.photoToLoad = photoToLoad;
 			}
 
@@ -1412,7 +1394,7 @@ public class AndroidView extends MovieView {
 			Bitmap bitmap;
 			PhotoToLoad photoToLoad;
 
-			public BitmapDisplayer(Bitmap bitmap, PhotoToLoad photoToLoad) {
+			BitmapDisplayer(Bitmap bitmap, PhotoToLoad photoToLoad) {
 				this.bitmap = bitmap;
 				this.photoToLoad = photoToLoad;
 			}

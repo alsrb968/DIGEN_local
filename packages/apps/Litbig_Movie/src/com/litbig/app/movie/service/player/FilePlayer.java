@@ -31,8 +31,8 @@ public class FilePlayer extends MoviePlayer {
 	// ----------
 	// PlayDirection
 	private class PlayDirection {
-		public static final int PREV = -1;
-		public static final int NEXT = 1;
+		static final int PREV = -1;
+		static final int NEXT = 1;
 	}
 
 	// ----------
@@ -368,13 +368,12 @@ public class FilePlayer extends MoviePlayer {
 	private TimerHandler mTimerHandler = new TimerHandler();
 
 	private class TimerHandler extends Handler {
-		public final int MESSAGE_TIME_PROGRESS = 101;
-		public final int MESSAGE_FAST_FORWARD = 102;
-		public final int MESSAGE_FAST_REWIND = 103;
-		public final int MESSAGE_REQUEST_BITMAP = 104;
+		final int MESSAGE_TIME_PROGRESS = 101;
+		final int MESSAGE_FAST_FORWARD = 102;
+		final int MESSAGE_FAST_REWIND = 103;
+		final int MESSAGE_REQUEST_BITMAP = 104;
 
-		private final int INTERVAL_FOR_UPDATE_TIME = 100;
-		public final int INTERVAL_FOR_FAST_TIMER = 100;
+		final int INTERVAL_FOR_FAST_TIMER = 100;
 
 		private int mPrevTime = 0;
 
@@ -384,6 +383,7 @@ public class FilePlayer extends MoviePlayer {
 				switch (msg.what) {
 				case MESSAGE_TIME_PROGRESS :
 					if (mPlayer.isPlaying()) {
+						int INTERVAL_FOR_UPDATE_TIME = 100;
 						sendEmptyMessageDelayed(MESSAGE_TIME_PROGRESS, INTERVAL_FOR_UPDATE_TIME);
 						int currentTime = mPlayer.getCurrentPosition();
 						if ((mPrevTime > currentTime) || (0 < ((currentTime / 1000) - (mPrevTime / 1000)))) {
