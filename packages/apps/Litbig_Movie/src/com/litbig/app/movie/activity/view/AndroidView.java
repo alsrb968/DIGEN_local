@@ -240,6 +240,9 @@ public class AndroidView extends MovieView {
 	@Override
 	public void onRepeatState(int repeat) {
 		switch (repeat) {
+		case MovieUtils.RepeatState.OFF :
+			mRepeatButton.setImageResource(R.drawable.btn_repeat_x_click);
+			break;
 		case MovieUtils.RepeatState.ALL :
 			mRepeatButton.setImageResource(R.drawable.btn_repeat_all_click);
 			break;

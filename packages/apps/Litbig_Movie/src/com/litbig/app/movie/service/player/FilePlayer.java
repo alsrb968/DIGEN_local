@@ -276,12 +276,15 @@ public class FilePlayer extends MoviePlayer {
 	@Override
 	public void setRepeat() {
 		switch (mRepeat) {
+		case MovieUtils.RepeatState.OFF:
+			setRepeat(MovieUtils.RepeatState.ALL);
+			break;
 		case MovieUtils.RepeatState.ALL :
 			setShuffle(MovieUtils.ShuffleState.OFF);
 			setRepeat(MovieUtils.RepeatState.ONE);
 			break;
 		case MovieUtils.RepeatState.ONE :
-			setRepeat(MovieUtils.RepeatState.ALL);
+			setRepeat(MovieUtils.RepeatState.OFF);
 			break;
 		default :
 			break;
@@ -466,6 +469,11 @@ public class FilePlayer extends MoviePlayer {
 		public void onCompletion(MediaPlayer mp) {
 			if ((MovieUtils.RepeatState.ONE == mRepeat) || (1 == mList.getTotalCount())) {
 				playIndex(mList.getPlayingIndex(false), true);
+			} else if (MovieUtils.RepeatState.OFF == mRepeat
+					&& getPlayingIndex() == mList.getTotalCount() - 1) {
+				playNext();
+				pause();
+				onPlayTimeMS(0);
 			} else {
 				playNext();
 			}
