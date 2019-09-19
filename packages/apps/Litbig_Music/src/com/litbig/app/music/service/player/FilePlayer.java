@@ -238,13 +238,16 @@ public class FilePlayer extends MusicPlayer {
 	@Override
 	public void setRepeat() {
 		switch (mRepeat) {
+		case MusicUtils.RepeatState.OFF:
+			setRepeat(MusicUtils.RepeatState.ALL);
+			break;
 		case MusicUtils.RepeatState.ALL :
 			setShuffle(MusicUtils.ShuffleState.OFF);
 			setRepeat(MusicUtils.RepeatState.ONE);
 			setScan(MusicUtils.ScanState.OFF);
 			break;
 		case MusicUtils.RepeatState.ONE :
-			setRepeat(MusicUtils.RepeatState.ALL);
+			setRepeat(MusicUtils.RepeatState.OFF);
 			break;
 		default :
 			break;
@@ -451,6 +454,11 @@ public class FilePlayer extends MusicPlayer {
 		public void onCompletion(MediaPlayer mp) {
 			if ((MusicUtils.RepeatState.ONE == mRepeat) || (1 == mList.getTotalCount())) {
 				playIndex(mList.getPlayingIndex(false), true);
+			} else if (MusicUtils.RepeatState.OFF == mRepeat
+					&& getPlayingIndex() == mList.getTotalCount() - 1) {
+				playNext();
+				pause();
+				onPlayTimeMS(0);
 			} else {
 				playNext();
 			}

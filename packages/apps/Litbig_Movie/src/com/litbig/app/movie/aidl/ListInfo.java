@@ -9,13 +9,17 @@ public class ListInfo implements Parcelable {
     private String[] mList;
     private int[] mTotalTime;
     private int[] mFileCount;
+    private int[] mWidth;
+    private int[] mHeight;
 
-    public ListInfo(int listType, String subCategory, String[] list, int[] totalTime, int[] fileCount) {
+    public ListInfo(int listType, String subCategory, String[] list, int[] totalTime, int[] fileCount, int[] width, int[] height) {
         mListType = listType;
         mSubCategory = subCategory;
         mList = list;
         mTotalTime = totalTime;
         mFileCount = fileCount;
+        mWidth = width;
+        mHeight = height;
     }
 
     public int getListType() {
@@ -38,6 +42,14 @@ public class ListInfo implements Parcelable {
         return mFileCount;
     }
 
+    public int[] getWidth() {
+        return mWidth;
+    }
+
+    public int[] getHeight() {
+        return mHeight;
+    }
+
     public static final Parcelable.Creator<ListInfo> CREATOR = new Creator<ListInfo>() {
         @Override
         public ListInfo createFromParcel(Parcel src) {
@@ -46,7 +58,9 @@ public class ListInfo implements Parcelable {
             String[] list = src.createStringArray();
             int[] totalTime = src.createIntArray();
             int[] fileCount = src.createIntArray();
-            return new ListInfo(listType, subCategory, list, totalTime, fileCount);
+            int[] width = src.createIntArray();
+            int[] height = src.createIntArray();
+            return new ListInfo(listType, subCategory, list, totalTime, fileCount, width, height);
         }
 
         @Override
@@ -67,5 +81,7 @@ public class ListInfo implements Parcelable {
         dest.writeStringArray(mList);
         dest.writeIntArray(mTotalTime);
         dest.writeIntArray(mFileCount);
+        dest.writeIntArray(mWidth);
+        dest.writeIntArray(mHeight);
     }
 }

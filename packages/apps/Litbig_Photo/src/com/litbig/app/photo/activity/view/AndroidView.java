@@ -416,8 +416,8 @@ public class AndroidView extends PhotoView {
 	// ----------
 	// Photo List View
 	private View mPhotoListView;
-	private ImageButton mCategoryAllButton;
-	private ImageButton mCategoryFolderButton;
+//	private ImageButton mCategoryAllButton;
+//	private ImageButton mCategoryFolderButton;
 	private ImageButton mGridChangeView;
 	private ImageButton mListChangeView;
 	private LinearLayout mUpstep;
@@ -434,10 +434,10 @@ public class AndroidView extends PhotoView {
 	private void initListView() {
 		mPhotoListView = mLayoutInflater.inflate(R.layout.photo_list, mActivity.getRootLayout(), false);
 		mActivity.getRootLayout().addView(mPhotoListView);
-		mCategoryAllButton = mPhotoListView.findViewById(R.id.category_all_button);
-		mCategoryAllButton.setOnClickListener(mClickListener);
-		mCategoryFolderButton = mPhotoListView.findViewById(R.id.category_folder_button);
-		mCategoryFolderButton.setOnClickListener(mClickListener);
+//		mCategoryAllButton = mPhotoListView.findViewById(R.id.category_all_button);
+//		mCategoryAllButton.setOnClickListener(mClickListener);
+//		mCategoryFolderButton = mPhotoListView.findViewById(R.id.category_folder_button);
+//		mCategoryFolderButton.setOnClickListener(mClickListener);
 		mGridChangeView = mPhotoListView.findViewById(R.id.grid_change_view);
 		mGridChangeView.setOnClickListener(mClickListener);
 		mListChangeView = mPhotoListView.findViewById(R.id.list_change_view);
@@ -456,12 +456,12 @@ public class AndroidView extends PhotoView {
 	private void selectCategoryButton(int type) {
 		switch (type) {
 		case PhotoUtils.Category.ALL :
-			mCategoryAllButton.setSelected(true);
-			mCategoryFolderButton.setSelected(false);
+//			mCategoryAllButton.setSelected(true);
+//			mCategoryFolderButton.setSelected(false);
 			break;
 		case PhotoUtils.Category.FOLDER :
-			mCategoryAllButton.setSelected(false);
-			mCategoryFolderButton.setSelected(true);
+//			mCategoryAllButton.setSelected(false);
+//			mCategoryFolderButton.setSelected(true);
 			break;
 		default :
 			break;
@@ -753,16 +753,16 @@ public class AndroidView extends PhotoView {
 			case R.id.shuffle_button :
 				setShuffle();
 				break;
-			case R.id.category_all_button :
-				if ((null != mListInfo) && (PhotoUtils.ListType.ALL != mListInfo.getListType())) {
-					requestList(PhotoUtils.ListType.ALL, null);
-				}
-				break;
-			case R.id.category_folder_button :
-				if ((null != mListInfo) && (PhotoUtils.ListType.FOLDER != mListInfo.getListType())) {
-					requestList(PhotoUtils.ListType.FOLDER, null);
-				}
-				break;
+//			case R.id.category_all_button :
+//				if ((null != mListInfo) && (PhotoUtils.ListType.ALL != mListInfo.getListType())) {
+//					requestList(PhotoUtils.ListType.ALL, null);
+//				}
+//				break;
+//			case R.id.category_folder_button :
+//				if ((null != mListInfo) && (PhotoUtils.ListType.FOLDER != mListInfo.getListType())) {
+//					requestList(PhotoUtils.ListType.FOLDER, null);
+//				}
+//				break;
 			case R.id.grid_change_view :
 				mItemView = ItemView.GRID;
 				setItemView();

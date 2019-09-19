@@ -239,6 +239,9 @@ public class AndroidView extends MusicView {
 	@Override
 	public void onRepeatState(int repeat) {
 		switch (repeat) {
+		case MusicUtils.RepeatState.OFF :
+			mRepeatButton.setImageResource(R.drawable.btn_repeat_x_click);
+			break;
 		case MusicUtils.RepeatState.ALL :
 			mRepeatButton.setImageResource(R.drawable.btn_repeat_all_click);
 			break;
