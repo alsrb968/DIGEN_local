@@ -1,5 +1,6 @@
 package com.litbig.app.music.activity.view;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,7 +20,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
-import android.os.RemoteException;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -28,7 +28,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -266,7 +265,28 @@ public class AndroidView extends MusicView {
 	}
 
 	@Override
+	public void onListState(int listState) {
+		if (View.VISIBLE == mMusicPlayerView.getVisibility()) {
+			//TODO:
+		} else if (View.VISIBLE == mMusicListView.getVisibility()) {
+			switch (listState) {
+				case MusicUtils.ListState.CATEGORY_ENABLE :
+				case MusicUtils.ListState.CATEGORY_DISABLE :
+					mItemList.setAdapter(null);
+					mListInfo = null;
+					requestList(MusicUtils.ListType.NOW_PLAYING, null);
+//					setCategoryTab(listState);
+					break;
+				default :
+					backToPlayerView();
+					break;
+			}
+		}
+	}
+
+	@Override
 	public void onListInfo(ListInfo info) {
+		Log.v("listType: " + info.getListType() + ", subCategory: " + info.getSubCategory());
 		if (null != info) {
 			if ((null == info.getList()) || (0 == info.getList().length)) {
 				switch (info.getListType()) {
@@ -276,9 +296,19 @@ public class AndroidView extends MusicView {
 				case MusicUtils.ListType.ARTIST :
 				case MusicUtils.ListType.ALBUM :
 				case MusicUtils.ListType.GENRE :
-				case MusicUtils.ListType.FOLDER :
 //				case MusicUtils.ListType.RECENT :
 					requestList(MusicUtils.ListType.NOW_PLAYING, null);
+					break;
+				case MusicUtils.ListType.FOLDER :
+				{
+					String subCategory = info.getSubCategory();
+					Log.v("subCategory: " + subCategory);
+					if (subCategory.equals(MusicUtils.getRootDirectoryName())) {
+						requestList(MusicUtils.ListType.NOW_PLAYING, null);
+					} else {
+						requestList(MusicUtils.ListType.FOLDER, (new File(subCategory)).getParent() + "/");
+					}
+				}
 					break;
 				case MusicUtils.ListType.ARTIST_TRACK :
 					requestList(MusicUtils.ListType.ARTIST, null);
@@ -290,6 +320,7 @@ public class AndroidView extends MusicView {
 					requestList(MusicUtils.ListType.GENRE, null);
 					break;
 				case MusicUtils.ListType.FOLDER_TRACK :
+					Log.v("FOLDER, null");
 					requestList(MusicUtils.ListType.FOLDER, null);
 					break;
 				default :
@@ -297,6 +328,20 @@ public class AndroidView extends MusicView {
 					break;
 				}
 			} else {
+				Log.v("----------listType: " + info.getListType() + ", Sub: " + info.getSubCategory());
+				Log.v("info.getList().length: " + info.getList().length
+						+ ", info.getIsFolder().length: " + info.getIsFolder().length
+						+ ", info.getArtist().length: " + (info.getArtist() != null ? info.getArtist().length : "null")
+						+ ", info.getFileCount().length: " + info.getFileCount().length
+						+ ", info.getTotalTime().length: " + info.getTotalTime().length);
+				for (int i = 0; i < info.getList().length; i++) {
+					Log.v("List: " + info.getList()[i]
+							+ ", IsFolder: " + info.getIsFolder()[i]
+							+ ", Artist: " + (info.getArtist() != null ? (info.getArtist().length > i ? info.getArtist()[i] : "null") : "null")
+							+ ", FileCount: " + info.getFileCount()[i]
+							+ ", TotalTime: " + info.getTotalTime()[i]);
+				}
+
 				mListInfo = info;
 				mListAdapter = new ListItemAdapter(mActivity);
 				mItemList.setKeywordList(new ArrayList<>(Arrays.asList(mListInfo.getList())));
@@ -308,52 +353,65 @@ public class AndroidView extends MusicView {
 					break;
 				case MusicUtils.ListType.ALL :
 					selectCategoryButton(MusicUtils.Category.ALL);
-					mUpstep.setVisibility(View.GONE);
+					mUpStep.setVisibility(View.GONE);
 					break;
 				case MusicUtils.ListType.ARTIST :
 					selectCategoryButton(MusicUtils.Category.ARTIST);
-					mUpstep.setVisibility(View.GONE);
+					mUpStep.setVisibility(View.GONE);
 					break;
 				case MusicUtils.ListType.ALBUM :
 					selectCategoryButton(MusicUtils.Category.ALBUM);
-					mUpstep.setVisibility(View.GONE);
+					mUpStep.setVisibility(View.GONE);
 					break;
 				case MusicUtils.ListType.GENRE :
 					selectCategoryButton(MusicUtils.Category.GENRE);
-					mUpstep.setVisibility(View.GONE);
+					mUpStep.setVisibility(View.GONE);
 					break;
 				case MusicUtils.ListType.FOLDER :
 					selectCategoryButton(MusicUtils.Category.FOLDER);
-					mUpstep.setVisibility(View.GONE);
+					mUpStep.setVisibility(View.GONE);
+				{
+					String subCategory = info.getSubCategory();
+//					if (subCategory.equals(MusicUtils.getRootDirectoryName())) {
+//						mUpStep.setEnabled(false);
+//					} else {
+//						mUpStep.setEnabled(true);
+//					}
+					mCurrentPath = subCategory;
+					Log.v("mCurrentPath: " + mCurrentPath);
+				}
 					break;
 //				case MusicUtils.ListType.RECENT :
 //					selectCategoryButton(MusicUtils.Category.RECENT);
-//					mUpstep.setVisibility(View.GONE);
+//					mUpStep.setVisibility(View.GONE);
 //					break;
 				case MusicUtils.ListType.ARTIST_TRACK :
 					selectCategoryButton(MusicUtils.Category.ARTIST);
-					mUpstep.setVisibility(View.VISIBLE);
+					mUpStep.setVisibility(View.VISIBLE);
 					mSubCategoryName.setText(info.getSubCategory());
 					break;
 				case MusicUtils.ListType.ALBUM_TRACK :
 					selectCategoryButton(MusicUtils.Category.ALBUM);
-					mUpstep.setVisibility(View.VISIBLE);
+					mUpStep.setVisibility(View.VISIBLE);
 					mSubCategoryName.setText(info.getSubCategory());
 					break;
 				case MusicUtils.ListType.GENRE_TRACK :
 					selectCategoryButton(MusicUtils.Category.GENRE);
-					mUpstep.setVisibility(View.VISIBLE);
+					mUpStep.setVisibility(View.VISIBLE);
 					mSubCategoryName.setText(info.getSubCategory());
 					break;
 				case MusicUtils.ListType.FOLDER_TRACK :
 					String subCategory = info.getSubCategory();
+					Log.v("subCategory: " + subCategory);
 					if (null == subCategory) {
+						Log.v("FOLDER, null");
 						requestList(MusicUtils.ListType.FOLDER, null);
 					} else {
 						String folder = subCategory.substring(subCategory.lastIndexOf("/") + 1);
 						folder = setCharset(folder);
+						Log.v("folder: " + folder);
 						selectCategoryButton(MusicUtils.Category.FOLDER);
-						mUpstep.setVisibility(View.VISIBLE);
+						mUpStep.setVisibility(View.VISIBLE);
 						mSubCategoryName.setText(folder);
 					}
 					break;
@@ -511,13 +569,14 @@ public class AndroidView extends MusicView {
 	private ImageButton mListPreviousButton;
 	private ImageButton mListPlayPauseButton;
 	private ImageButton mListNextButton;
-	private LinearLayout mUpstep;
+	private LinearLayout mUpStep;
 	private TextView mSubCategoryName;
 	private KoreanIndexerListView mItemList;
 
 	private ListItemAdapter mListAdapter;
 	private ListInfo mListInfo = null;
 	private int mNowPlayingCategory = MusicUtils.Category.ALL;
+	private String mCurrentPath = null;
 
 	private void initListView() {
 		mMusicListView = mLayoutInflater.inflate(R.layout.music_list, mActivity.getRootLayout(), false);
@@ -540,8 +599,8 @@ public class AndroidView extends MusicView {
 		mListPlayPauseButton.setImageResource(R.drawable.btn_play_click);
 		mListNextButton = mMusicListView.findViewById(R.id.list_next_button);
 		mListNextButton.setOnClickListener(mClickListener);
-		mUpstep = mMusicListView.findViewById(R.id.list_upstep);
-		mUpstep.setOnClickListener(mClickListener);
+		mUpStep = mMusicListView.findViewById(R.id.list_upstep);
+		mUpStep.setOnClickListener(mClickListener);
 		mSubCategoryName = mMusicListView.findViewById(R.id.sub_category);
 		mSubCategoryName.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14.0f * mDpRate);
 		mItemList = mMusicListView.findViewById(R.id.item_list);
@@ -596,17 +655,18 @@ public class AndroidView extends MusicView {
 		switch (mNowPlayingCategory) {
 		case MusicUtils.ListType.ALL :
 //		case MusicUtils.ListType.RECENT :
-			mUpstep.setVisibility(View.GONE);
+			mUpStep.setVisibility(View.GONE);
 			break;
 		case MusicUtils.ListType.ARTIST :
 		case MusicUtils.ListType.ALBUM :
 		case MusicUtils.ListType.GENRE :
 		case MusicUtils.ListType.FOLDER :
-			mUpstep.setVisibility(View.VISIBLE);
+			mUpStep.setVisibility(View.VISIBLE);
 			String subCategory = getNowPlayingSubCategory();
 			String folder = subCategory.substring(subCategory.lastIndexOf("/") + 1);
 			folder = setCharset(folder);
 			mSubCategoryName.setText(folder);
+			mCurrentPath = subCategory;
 			break;
 		default :
 			break;
@@ -721,6 +781,70 @@ public class AndroidView extends MusicView {
 		return isPlaying;
 	}
 
+	private void selectListItem(int position) {
+		if (null != mListInfo) {
+			switch (mListInfo.getListType()) {
+				case MusicUtils.ListType.NOW_PLAYING :
+					if (MusicUtils.Category.FOLDER == getNowPlayingCategory()) {
+//					if ((false == mCurrentPath.equals(MediaManager.getRootDirectoryName(mMusicMode))) && (0 == position)) {
+//						requestList(MusicUtils.ListType.FOLDER, (new File(mCurrentPath)).getParent() + "/");
+//					} else
+						if ((mListInfo.getIsFolder())[position]) {
+							mCurrentPath += (mListInfo.getList())[position] + "/";
+							requestList(MusicUtils.ListType.FOLDER, mCurrentPath);
+						} else {
+							selectItemToPlay(position - mListInfo.getFolderCount(), true);
+						}
+					} else {
+						selectItemToPlay(position, true);
+					}
+//				selectItemToPlay(position, true);
+					break;
+				case MusicUtils.ListType.ALL :
+					selectItemToPlay(position, isNowPlayingCategory(MusicUtils.Category.ALL, null));
+					break;
+				case MusicUtils.ListType.ARTIST :
+					requestList(MusicUtils.ListType.ARTIST_TRACK, (mListInfo.getList())[position]);
+					break;
+				case MusicUtils.ListType.ALBUM :
+					requestList(MusicUtils.ListType.ALBUM_TRACK, (mListInfo.getList())[position]);
+					break;
+				case MusicUtils.ListType.GENRE :
+					requestList(MusicUtils.ListType.GENRE_TRACK, (mListInfo.getList())[position]);
+					break;
+				case MusicUtils.ListType.FOLDER :
+//				if ((false == mCurrentPath.equals(MediaManager.getRootDirectoryName(mMusicMode))) && (0 == position)) {
+//					requestList(MusicUtils.ListType.FOLDER, (new File(mCurrentPath)).getParent() + "/");
+//				} else
+					if ((mListInfo.getIsFolder())[position]) {
+						mCurrentPath += (mListInfo.getList())[position] + "/";
+						requestList(MusicUtils.ListType.FOLDER, mCurrentPath);
+					} else {
+						selectItemToPlay(position - mListInfo.getFolderCount(), isNowPlayingCategory(MusicUtils.Category.FOLDER, mListInfo.getSubCategory()));
+					}
+//				requestList(MusicUtils.ListType.FOLDER_TRACK, (mListInfo.getList())[position]);
+					break;
+//				case MusicUtils.ListType.RECENT :
+//					selectItemToPlay(position, isNowPlayingCategory(MusicUtils.Category.RECENT, null));
+//					break;
+				case MusicUtils.ListType.ARTIST_TRACK :
+					selectItemToPlay(position, isNowPlayingCategory(MusicUtils.Category.ARTIST, mListInfo.getSubCategory()));
+					break;
+				case MusicUtils.ListType.ALBUM_TRACK :
+					selectItemToPlay(position, isNowPlayingCategory(MusicUtils.Category.ALBUM, mListInfo.getSubCategory()));
+					break;
+				case MusicUtils.ListType.GENRE_TRACK :
+					selectItemToPlay(position, isNowPlayingCategory(MusicUtils.Category.GENRE, mListInfo.getSubCategory()));
+					break;
+				case MusicUtils.ListType.FOLDER_TRACK :
+					selectItemToPlay(position, isNowPlayingCategory(MusicUtils.Category.FOLDER, mListInfo.getSubCategory()));
+					break;
+				default :
+					break;
+			}
+		}
+	}
+
 	private void backToPlayerView() {
 		mImageLoader.destroy();
 		mMusicPlayerView.setVisibility(View.VISIBLE);
@@ -790,19 +914,43 @@ public class AndroidView extends MusicView {
 				holder.info.setText(mListInfo.getFileCount()[position] + " List");
 				break;
 			case MusicUtils.ListType.FOLDER :
-				String folder = getInfo.substring(getInfo.lastIndexOf("/") + 1);
-				getInfo = setCharset(folder);
-				holder.folder.setVisibility(View.VISIBLE);
-				holder.item.setVisibility(View.GONE);
-				holder.artist.setText("");
-				holder.info.setText(mListInfo.getFileCount()[position] + " List");
+			case MusicUtils.ListType.FOLDER_TRACK :
+				Log.v("position: " + position
+						+ ", IsFolder: " + mListInfo.getIsFolder()[position]);
+				if (mListInfo.getIsFolder()[position]) {
+					String folder = getInfo.substring(getInfo.lastIndexOf("/") + 1);
+					getInfo = setCharset(folder);
+					holder.folder.setVisibility(View.VISIBLE);
+					holder.item.setVisibility(View.GONE);
+					holder.artist.setText("");
+					holder.info.setText(mListInfo.getFileCount()[position] + " List");
+					holder.albumart.setImageResource(R.drawable.ic_folder_click);
+				} else {
+					holder.folder.setVisibility(View.GONE);
+					holder.item.setVisibility(View.VISIBLE);
+					holder.albumart.setImageResource(R.drawable.cover_img_s);
+					mImageLoader.displayImage(position, holder.albumart);
+					Log.v("position: " + position
+							+ ", mListInfo.getListType(): " + mListInfo.getListType()
+							+ ", mListInfo.getArtist(): " + Arrays.toString(mListInfo.getArtist()));
+					if (mListInfo.getArtist() != null && mListInfo.getArtist().length > position)
+						holder.artist.setText(mListInfo.getArtist()[position]);
+					holder.info.setText("     " + makeTimeFormat(mListInfo.getTotalTime()[position]));
+					holder.artist.measure(0, 0);
+					holder.info.measure(0, 0);
+					int trackTotalWidth = (int)(364 * mDpRate);
+					int trackInfoWidth = holder.info.getMeasuredWidth();
+					if (trackTotalWidth < (holder.artist.getMeasuredWidth() + trackInfoWidth)) {
+						holder.artist.setWidth(trackTotalWidth - trackInfoWidth);
+					}
+				}
 				break;
 			default :
 				holder.folder.setVisibility(View.GONE);
 				holder.item.setVisibility(View.VISIBLE);
 				holder.albumart.setImageResource(R.drawable.cover_img_s);
 				mImageLoader.displayImage(position, holder.albumart);
-				if (mListInfo.getArtist() != null)
+				if (mListInfo.getArtist() != null && mListInfo.getArtist().length > position)
 					holder.artist.setText(mListInfo.getArtist()[position]);
 				holder.info.setText("     " + makeTimeFormat(mListInfo.getTotalTime()[position]));
 				holder.artist.measure(0, 0);
@@ -841,7 +989,7 @@ public class AndroidView extends MusicView {
 				} else {
 					mMusicPlayerView.setVisibility(View.GONE);
 					mMusicListView.setVisibility(View.VISIBLE);
-					mUpstep.setVisibility(View.GONE);
+					mUpStep.setVisibility(View.GONE);
 					requestList(MusicUtils.ListType.NOW_PLAYING, null);
 				}
 				break;
@@ -893,8 +1041,11 @@ public class AndroidView extends MusicView {
 				}
 				break;
 			case R.id.category_folder_button :
+				Log.v("category_folder_button");
 				if ((null != mListInfo) && (MusicUtils.ListType.FOLDER != mListInfo.getListType())) {
-					requestList(MusicUtils.ListType.FOLDER, null);
+					Log.v("listType: " + mListInfo.getListType());
+//					requestList(MusicUtils.ListType.FOLDER, null);
+					requestList(MusicUtils.ListType.FOLDER, MusicUtils.getRootDirectoryName());
 				}
 				break;
 			case R.id.category_recent_button:
@@ -940,11 +1091,17 @@ public class AndroidView extends MusicView {
 							requestList(MusicUtils.ListType.GENRE, null);
 							break;
 						case MusicUtils.Category.FOLDER :
-							requestList(MusicUtils.ListType.FOLDER, null);
+//							requestList(MusicUtils.ListType.FOLDER, null);
+							Log.v("mCurrentPath: " + mCurrentPath
+									+ ", (new File(mCurrentPath)).getParent() + /" + (new File(mCurrentPath)).getParent() + "/");
+							requestList(MusicUtils.ListType.FOLDER, (new File(mCurrentPath)).getParent() + "/");
 							break;
 						default :
 							break;
 						}
+						break;
+					case MusicUtils.ListType.FOLDER :
+						requestList(MusicUtils.ListType.FOLDER, (new File(mCurrentPath)).getParent() + "/");
 						break;
 					case MusicUtils.ListType.ARTIST_TRACK :
 						requestList(MusicUtils.ListType.ARTIST, null);
@@ -956,7 +1113,7 @@ public class AndroidView extends MusicView {
 						requestList(MusicUtils.ListType.GENRE, null);
 						break;
 					case MusicUtils.ListType.FOLDER_TRACK :
-						requestList(MusicUtils.ListType.FOLDER, null);
+						requestList(MusicUtils.ListType.FOLDER, (new File(mCurrentPath)).getParent() + "/");
 						break;
 					default :
 						break;
@@ -1106,33 +1263,7 @@ public class AndroidView extends MusicView {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			switch (parent.getId()) {
 			case R.id.item_list :
-				if (null != mListInfo) {
-					switch (mListInfo.getListType()) {
-					case MusicUtils.ListType.ALL :
-					case MusicUtils.ListType.ARTIST_TRACK :
-					case MusicUtils.ListType.ALBUM_TRACK :
-					case MusicUtils.ListType.GENRE_TRACK :
-					case MusicUtils.ListType.FOLDER_TRACK :
-//					case MusicUtils.ListType.RECENT :
-					case MusicUtils.ListType.NOW_PLAYING :
-						selectItemToPlay(position, MusicUtils.ListType.NOW_PLAYING == mListInfo.getListType());
-						break;
-					case MusicUtils.ListType.ARTIST :
-						requestList(MusicUtils.ListType.ARTIST_TRACK, (mListInfo.getList())[position]);
-						break;
-					case MusicUtils.ListType.ALBUM :
-						requestList(MusicUtils.ListType.ALBUM_TRACK, (mListInfo.getList())[position]);
-						break;
-					case MusicUtils.ListType.GENRE :
-						requestList(MusicUtils.ListType.GENRE_TRACK, (mListInfo.getList())[position]);
-						break;
-					case MusicUtils.ListType.FOLDER :
-						requestList(MusicUtils.ListType.FOLDER_TRACK, (mListInfo.getList())[position]);
-						break;
-					default :
-						break;
-					}
-				}
+				selectListItem(position);
 				break;
 			default :
 				break;

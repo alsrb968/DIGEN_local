@@ -10,14 +10,18 @@ public class ListInfo implements Parcelable {
 	private String[] mArtist;
 	private int[] mTotalTime;
 	private int[] mFileCount;
+	private boolean[] mIsFolder;
+	private int mFolderCount;
 
-	public ListInfo(int listType, String subCategory, String[] list, String[] artist, int[] totalTime, int[] fileCount) {
+	public ListInfo(int listType, String subCategory, String[] list, String[] artist, int[] totalTime, int[] fileCount, boolean[] isFolder, int folderCount) {
 		mListType = listType;
 		mSubCategory = subCategory;
 		mList = list;
 		mArtist = artist;
 		mTotalTime = totalTime;
 		mFileCount = fileCount;
+		mIsFolder = isFolder;
+		mFolderCount = folderCount;
 	}
 
 	public int getListType() {
@@ -44,6 +48,14 @@ public class ListInfo implements Parcelable {
 		return mFileCount;
 	}
 
+	public boolean[] getIsFolder() {
+		return mIsFolder;
+	}
+
+	public int getFolderCount() {
+		return mFolderCount;
+	}
+
 	public static final Parcelable.Creator<ListInfo> CREATOR = new Creator<ListInfo>() {
 		@Override
 		public ListInfo createFromParcel(Parcel src) {
@@ -53,7 +65,9 @@ public class ListInfo implements Parcelable {
 			String[] artist = src.createStringArray();
 			int[] totalTime = src.createIntArray();
 			int[] fileCount = src.createIntArray();
-			return new ListInfo(listType, subCategory, list, artist, totalTime, fileCount);
+			boolean[] isFolder = src.createBooleanArray();
+			int folderCount = src.readInt();
+			return new ListInfo(listType, subCategory, list, artist, totalTime, fileCount, isFolder, folderCount);
 		}
 
 		@Override

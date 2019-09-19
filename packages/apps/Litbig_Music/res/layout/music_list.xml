@@ -172,9 +172,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="12" />
+
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
+                            android:layout_height="39dp"
                             android:layout_weight="46"
                             android:src="@drawable/ic_upstep_click" />
                         <View

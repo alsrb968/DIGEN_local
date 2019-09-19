@@ -67,6 +67,9 @@ public abstract class MusicPlayer implements MusicPlayerInterface, MusicPlayerCa
 	}
 
 	@Override
+	public void onListState(int listState) { mCallback.onListState(listState); }
+
+	@Override
 	public void onListInfo(ListInfo info) {
 		mCallback.onListInfo(info);
 	}
