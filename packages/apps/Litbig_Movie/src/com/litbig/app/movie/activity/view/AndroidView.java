@@ -781,7 +781,7 @@ public class AndroidView extends MovieView {
 			holder.resolution.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14 * mDpRate);
 			holder.playing = convertView.findViewById(R.id.list_playing);
 			convertView.setTag(holder);
-			convertView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, (int)(mItemList.getMeasuredHeight() / 4/* * mDpRate*/)));
+			convertView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, mItemList.getMeasuredHeight() / 4/* * mDpRate*/));
 			String getInfo = mListInfo.getList()[position];
 			if (mListInfo.getListType() == MovieUtils.ListType.FOLDER) {
 				String folder = getInfo.substring(getInfo.lastIndexOf("/") + 1);
