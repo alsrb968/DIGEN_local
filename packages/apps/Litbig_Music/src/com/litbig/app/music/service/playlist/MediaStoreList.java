@@ -17,11 +17,14 @@ import com.litbig.app.music.aidl.ListInfo;
 import com.litbig.app.music.aidl.MusicInfo;
 import com.litbig.app.music.service.MusicPlaybackService;
 import com.litbig.app.music.service.player.FilePlayer;
+import com.litbig.app.music.util.Log;
 import com.litbig.app.music.util.MusicUtils;
 import com.litbig.mediastorage.MediaStorage;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -247,59 +250,80 @@ public class MediaStoreList {
 		if (!mMakeList) {
 			mMakeList = true;
 			switch (listType) {
-			case MusicUtils.ListType.NOW_PLAYING :
-				mCategory = MusicUtils.Category.NOW_PLAYING;
-				if (QUERY_STATE_COMPLETED == mNowPlayingQueryState) {
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							int[] totalTime = new int[mNowPlayingTotalCount];
-							int[] fileCount = new int[mNowPlayingTotalCount];
-							for (int index = 0; index < mNowPlayingTotalCount; index++) {
-								totalTime[index] = mNowPlayingTotalTimeList.get(index);
-								fileCount[index] = 0;
+				case MusicUtils.ListType.NOW_PLAYING :
+					mCategory = MusicUtils.Category.NOW_PLAYING;
+					if (QUERY_STATE_COMPLETED == mNowPlayingQueryState) {
+						new Thread(new Runnable() {
+							@Override
+							public void run() {
+								String[] artist = new String[mNowPlayingFolderCount + mNowPlayingTotalCount];
+								int[] totalTime = new int[mNowPlayingFolderCount + mNowPlayingTotalCount];
+								int[] fileCount = new int[mNowPlayingFolderCount + mNowPlayingTotalCount];
+								boolean[] isFolder = new boolean[mNowPlayingFolderCount + mNowPlayingTotalCount];
+								for (int index = 0; index < mNowPlayingFolderCount + mNowPlayingTotalCount; index++) {
+									if (index < mNowPlayingFolderCount) {
+										artist[index] = null;
+										totalTime[index] = 0;
+										fileCount[index] = mNowPlayingFileCount[index];
+										isFolder[index] = true;
+									} else {
+										artist[index] = mNowPlayingArtistList.get(index - mNowPlayingFolderCount);
+										totalTime[index] = mNowPlayingTotalTimeList.get(index - mNowPlayingFolderCount);
+										fileCount[index] = 0;
+										isFolder[index] = false;
+									}
+								}
+								responseList(new ListInfo(
+										MusicUtils.ListType.NOW_PLAYING,
+										null,
+										mNowPlayingList.toArray(new String[mNowPlayingFolderCount + mNowPlayingTotalCount]),
+										artist,
+										totalTime,
+										fileCount,
+										isFolder,
+										mNowPlayingFolderCount));
 							}
-							responseList(new ListInfo(MusicUtils.ListType.NOW_PLAYING, null, mNowPlayingList.toArray(new String[mNowPlayingTotalCount]), mNowPlayingArtistList.toArray(new String[mNowPlayingTotalCount]), totalTime, fileCount));
-						}
-					}).start();
-				} else {
-					responseList(new ListInfo(MusicUtils.ListType.NOW_PLAYING, null, null, null, null, null));
-				}
-				break;
-			case MusicUtils.ListType.ALL :
-				mCategory = MusicUtils.Category.ALL;
-				requestCategoryTrack();
-				break;
-			case MusicUtils.ListType.ARTIST :
-				mCategory = MusicUtils.Category.ARTIST;
-				requestArtistCategory();
-				break;
-			case MusicUtils.ListType.ALBUM :
-				mCategory = MusicUtils.Category.ALBUM;
-				requestAlbumCategory();
-				break;
-			case MusicUtils.ListType.GENRE :
-				mCategory = MusicUtils.Category.GENRE;
-				requestGenreCategory();
-				break;
-			case MusicUtils.ListType.FOLDER :
-				mCategory = MusicUtils.Category.FOLDER;
-				requestFolderCategory();
-				break;
-//			case MusicUtils.ListType.RECENT :
-//				mCategory = MusicUtils.Category.RECENT;
-//				requestCategoryTrack();
-//				break;
-			case MusicUtils.ListType.ARTIST_TRACK :
-			case MusicUtils.ListType.ALBUM_TRACK :
-			case MusicUtils.ListType.GENRE_TRACK :
-			case MusicUtils.ListType.FOLDER_TRACK :
-				mCategory = getCategory(listType);
-				mSubCategory = subCategory;
-				requestCategoryTrack();
-				break;
-			default :
-				break;
+						}).start();
+					} else {
+						responseList(new ListInfo(MusicUtils.ListType.NOW_PLAYING, null, null, null, null, null, null, 0));
+					}
+					break;
+				case MusicUtils.ListType.ALL :
+					mCategory = MusicUtils.Category.ALL;
+					requestCategoryTrack();
+					break;
+				case MusicUtils.ListType.ARTIST :
+					mCategory = MusicUtils.Category.ARTIST;
+					requestArtistCategory();
+					break;
+				case MusicUtils.ListType.ALBUM :
+					mCategory = MusicUtils.Category.ALBUM;
+					requestAlbumCategory();
+					break;
+				case MusicUtils.ListType.GENRE :
+					mCategory = MusicUtils.Category.GENRE;
+					requestGenreCategory();
+					break;
+				case MusicUtils.ListType.FOLDER :
+					mCategory = MusicUtils.Category.FOLDER;
+					mSubCategory = subCategory;
+					requestCategoryTrack();
+	//				requestFolderCategory();
+					break;
+	//			case MusicUtils.ListType.RECENT :
+	//				mCategory = MusicUtils.Category.RECENT;
+	//				requestCategoryTrack();
+	//				break;
+				case MusicUtils.ListType.ARTIST_TRACK :
+				case MusicUtils.ListType.ALBUM_TRACK :
+				case MusicUtils.ListType.GENRE_TRACK :
+				case MusicUtils.ListType.FOLDER_TRACK :
+					mCategory = getCategory(listType);
+					mSubCategory = subCategory;
+					requestCategoryTrack();
+					break;
+				default :
+					break;
 			}
 		}
 	}
@@ -424,20 +448,20 @@ public class MediaStoreList {
 		private WeakReference<AsyncQueryListener> mListener;
 
 		private class QueryArgs {
-			public Uri uri;
-			public String [] projection;
-			public String selection;
-			public String [] selectionArgs;
-			public String orderBy;
+			Uri uri;
+			String [] projection;
+			String selection;
+			String [] selectionArgs;
+			String orderBy;
 		}
 
-		public NotifyingAsyncQueryHandler(Context context, AsyncQueryListener listener) {
+		NotifyingAsyncQueryHandler(Context context, AsyncQueryListener listener) {
 			super(context.getContentResolver());
 			mContext = context;
 			mListener = new WeakReference<>(listener);
 		}
 
-		public Cursor doQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String orderBy, boolean async) {
+		Cursor doQuery(Uri uri, String[] projection, String selection, String[] selectionArgs, String orderBy, boolean async) {
 			if (async) {
 				// Get 100 results first, which is enough to allow the user to start scrolling, while still being very fast.
 				Uri limituri = uri.buildUpon().appendQueryParameter("limit", "100").build();
@@ -569,8 +593,11 @@ public class MediaStoreList {
 	private ArrayList<Integer> mNowPlayingTotalTimeList = new ArrayList<>();
 	private Cursor mNowPlayingCursor = null;
 	private int mNowPlayingTotalCount = 0;
+	private int mNowPlayingFolderCount = 0;
+	private int[] mNowPlayingFileCount;
 
 	private void requestNowPlaying() {
+		Log.v("[jacob] ");
 		boolean directQuery = false;
 		if (null == Looper.myLooper()) {
 			directQuery = true;
@@ -578,8 +605,11 @@ public class MediaStoreList {
 		mNowPlayingList.clear();
 		mNowPlayingArtistList.clear();
 		mNowPlayingTotalTimeList.clear();
+		mNowPlayingFolderCount = 0;
 		mNowPlayingQueryState = QUERY_STATE_STARTED;
+		Log.v("[jacob] mNowPlayingCategory: " + mNowPlayingCategory);
 		loadNowPlayingCategory();
+		Log.v("[jacob] mNowPlayingCategory: " + mNowPlayingCategory);
 		Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
 		String[] projection = new String[] {
 			MediaStore.Audio.Media._ID,	MediaStore.Audio.Media.TITLE,
@@ -588,24 +618,28 @@ public class MediaStoreList {
 		};
 		StringBuilder where = new StringBuilder(MediaStore.Audio.Media.IS_MUSIC + "=1");
 		String[] selectionArgs = null;
-		String orderBy = getOrderbyFromLocalization(MediaStore.Audio.Media.TITLE);
+		String orderBy = getOrderByFromLocalization(MediaStore.Audio.Media.TITLE);
 		ArrayList<String> args = new ArrayList<>();
 		if (MusicUtils.Category.FOLDER == mNowPlayingCategory) {
 			where.append(" AND " + MediaStore.Audio.Media.DATA + " like ?");
 			args.add(mNowPlayingSubCategory + "%");
-			selectionArgs = args.toArray(new String[args.size()]);
-		} /*else if (MusicUtils.Category.RECENT == mNowPlayingCategory) {
-			if (mService.getRecentTrackList().size() > 0) {
-				where += " AND " + MediaStore.Audio.Media.TITLE + " like ?";
-				args.add(mService.getRecentTrackList().get(0));
-				for (int index = 1; index < mService.getRecentTrackList().size(); index++) {
-					Log.d("[jacob] RecentTrackList: " + mService.getRecentTrackList().get(index));
-					where += " OR " + MediaStore.Audio.Media.TITLE + " like ?";
-					args.add(mService.getRecentTrackList().get(index));
+			File[] files = (new File(mNowPlayingSubCategory)).listFiles();
+			if ((null != files) && (0 < files.length)) {
+				for (File file : files) {
+					if (file.isDirectory() && existMusicFile(file)) {
+						mNowPlayingList.add(file.getName());
+						mNowPlayingFolderCount++;
+						where.append(" AND " + MediaStore.Audio.Media.DATA + " not like ?");
+						args.add(file.getAbsolutePath() + "%");
+					}
 				}
-				selectionArgs = args.toArray(new String[args.size()]);
+				Log.v("[jacob] mNowPlayingList: " + mNowPlayingList.toString());
+				Log.v("[jacob] mNowPlayingFolderCount: " + mNowPlayingFolderCount);
+				Log.v("[jacob] args: " + args.toString());
 			}
-		}*/ else {
+			selectionArgs = args.toArray(new String[0]);
+		} else {
+			Log.v("[jacob] mNowPlayingCategory: " + mNowPlayingCategory);
 			ArrayList<String> enableStorage = MediaStorage.getEnableStorage(mService);
 			if (0 < enableStorage.size()) {
 				where.append(" AND (" + MediaStore.Audio.Media.DATA + " like ?");
@@ -616,29 +650,30 @@ public class MediaStoreList {
 				}
 				where.append(")");
 			}
-			switch (mNowPlayingCategory) {
+			switch (mNowPlayingCategory)
+			{
 			case MusicUtils.Category.ALL :
-//			case MusicUtils.Category.RECENT :
-				selectionArgs = args.toArray(new String[args.size()]);
+				selectionArgs = args.toArray(new String[0]);
 				break;
 			case MusicUtils.Category.ARTIST :
 				where.append(" AND " + MediaStore.Audio.Media.ARTIST + "=?");
 				args.add(mNowPlayingSubCategory);
-				selectionArgs = args.toArray(new String[args.size()]);
+				selectionArgs = args.toArray(new String[0]);
 				break;
 			case MusicUtils.Category.ALBUM :
 				where.append(" AND " + MediaStore.Audio.Media.ALBUM + "=?");
 				args.add(mNowPlayingSubCategory);
-				selectionArgs = args.toArray(new String[args.size()]);
+				selectionArgs = args.toArray(new String[0]);
 				break;
 			case MusicUtils.Category.GENRE :
 				uri = MediaStore.Audio.Genres.Members.getContentUri("external", Integer.parseInt(mNowPlayingSubCategory));
-				selectionArgs = args.toArray(new String[args.size()]);
+				selectionArgs = args.toArray(new String[0]);
 				break;
 			default :
 				break;
 			}
 		}
+		Log.v("[jacob] directQuery: " + directQuery);
 		if (directQuery) {
 			Cursor cursor = mService.getContentResolver().query(uri, projection, where.toString(), selectionArgs, orderBy);
 			if ((null != cursor) && (0 < cursor.getCount())) {
@@ -690,16 +725,21 @@ public class MediaStoreList {
 					mNowPlayingQueryState = QUERY_STATE_COMPLETED;
 					mNowPlayingCursor = cursor;
 					mNowPlayingTotalCount = mNowPlayingCursor.getCount();
+					mNowPlayingFileCount = new int[mNowPlayingFolderCount];
 					mPlayer.onTotalCount(mNowPlayingTotalCount);
+					mPlayer.onListState(MusicUtils.ListState.CATEGORY_ENABLE);
 					int count = 0;
 					if ((0 < token) && (100 < mNowPlayingTotalCount)) {
 						count = 100;
 					}
 					for (; count < mNowPlayingTotalCount; count++) {
+						Log.v("[jacob] count: " + count);
 						mNowPlayingCursor.moveToPosition(count);
 						String track = mNowPlayingCursor.getString(mNowPlayingCursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
+						Log.v("[jacob] track: " + track);
+						String name = mNowPlayingCursor.getString(mNowPlayingCursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+						Log.v("[jacob] name: " + name);
 						if ((null == track) || (track.isEmpty())) {
-							String name = mNowPlayingCursor.getString(mNowPlayingCursor.getColumnIndex(MediaStore.Audio.Media.DATA));
 							track = name.substring(name.lastIndexOf('/') + 1, name.lastIndexOf('.'));
 						}
 						mNowPlayingList.add(track);
@@ -708,7 +748,15 @@ public class MediaStoreList {
 							artist = mService.getString(R.string.unknown);
 						}
 						mNowPlayingArtistList.add(artist);
-						mNowPlayingTotalTimeList.add(mNowPlayingCursor.getInt(mNowPlayingCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)));
+						Log.v("[jacob] artist: " + artist);
+						for (int folderIndex = 0; folderIndex < mNowPlayingFolderCount; folderIndex++) {
+							if (name.startsWith(mNowPlayingList.get(folderIndex))) {
+								mNowPlayingFileCount[folderIndex]++;
+							}
+						}
+						int totalTime = mNowPlayingCursor.getInt(mNowPlayingCursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
+						mNowPlayingTotalTimeList.add(totalTime);
+						Log.v("[jacob] totalTime: " + totalTime);
 					}
 					if ((0 < token) || (100 > mNowPlayingTotalCount)) {
 						processAfterQuery();
@@ -724,6 +772,7 @@ public class MediaStoreList {
 				mNowPlayingCursor = null;
 				mNowPlayingTotalCount = 0;
 				mActivePlayer = false;
+				mPlayer.onListState(MusicUtils.ListState.NONE);
 				mService.clearPreference();
 				mRetryQuery = false;
 			}
@@ -738,6 +787,7 @@ public class MediaStoreList {
 	private Cursor mCategoryTrackCursor = null;
 	private Cursor mRecentTrackCursor = null;
 	private int mCategoryTrackTotalCount = 0;
+	private int mCategoryTrackFolderCount = 0;
 	private int mCategory = MusicUtils.Category.ALL;
 	private String mSubCategory = null;
 
@@ -745,6 +795,7 @@ public class MediaStoreList {
 		mCategoryTrackList.clear();
 		mCategoryTrackArtistList.clear();
 		mCategoryTrackTotalTimeList.clear();
+		mCategoryTrackFolderCount = 0;
 		Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
 		String[] projection = new String[] {
 			MediaStore.Audio.Media._ID,	MediaStore.Audio.Media.TITLE,
@@ -754,26 +805,31 @@ public class MediaStoreList {
 		StringBuilder where = new StringBuilder(MediaStore.Audio.Media.IS_MUSIC + "=1");
 		String[] selectionArgs = null;
 
-		String orderBy = getOrderbyFromLocalization(MediaStore.Audio.Media.TITLE);
+		String orderBy = getOrderByFromLocalization(MediaStore.Audio.Media.TITLE);
 		String name = MediaStore.Audio.Media.TITLE;
 
 		ArrayList<String> args = new ArrayList<>();
 		if (MusicUtils.Category.FOLDER == mCategory) {
 			where.append(" AND " + MediaStore.Audio.Media.DATA + " like ?");
 			args.add(mSubCategory + "%");
-			selectionArgs = args.toArray(new String[args.size()]);
-		} /*else if (MusicUtils.Category.RECENT == mCategory) {
-			if (mService.getRecentTrackList().size() > 0) {
-				where += " AND " + MediaStore.Audio.Media.TITLE + " like ?";
-				args.add(mService.getRecentTrackList().get(0));
-				for (int index = 1; index < mService.getRecentTrackList().size(); index++) {
-					Log.d("[jacob] RecentTrackList: " + mService.getRecentTrackList().get(index));
-					where += " OR " + MediaStore.Audio.Media.TITLE + " like ?";
-					args.add(mService.getRecentTrackList().get(index));
+			Log.v("[jacob] args: " + args.toString());
+			File[] files = (new File(mSubCategory)).listFiles();
+			if ((null != files) && (0 < files.length)) {
+				for (File file : files) {
+					Log.v("[jacob] " + file.getName() + ", isDir: " + file.isDirectory());
+
+					if (file.isDirectory() && existMusicFile(file)) {
+						mCategoryTrackList.add(file.getName());
+						mCategoryTrackFolderCount++;
+						where.append(" AND " + MediaStore.Audio.Media.DATA + " not like ?");
+						args.add(file.getAbsolutePath() + "%");
+					}
 				}
-				selectionArgs = args.toArray(new String[args.size()]);
+				Log.v("[jacob] mCategoryTrackList: " + mCategoryTrackList.toString());
+				Log.v("[jacob] mCategoryTrackFolderCount: " + mCategoryTrackFolderCount);
 			}
-		}*/ else {
+			selectionArgs = args.toArray(new String[0]);
+		} else {
 			ArrayList<String> enableStorage = MediaStorage.getEnableStorage(mService);
 			if (0 < enableStorage.size()) {
 				where.append(" AND (" + MediaStore.Audio.Media.DATA + " like ?");
@@ -786,21 +842,21 @@ public class MediaStoreList {
 			}
 			switch (mCategory) {
 			case MusicUtils.Category.ALL :
-				selectionArgs = args.toArray(new String[args.size()]);
+				selectionArgs = args.toArray(new String[0]);
 				break;
 			case MusicUtils.Category.ARTIST :
 				where.append(" AND " + MediaStore.Audio.Media.ARTIST + "=?");
 				args.add(mSubCategory);
-				selectionArgs = args.toArray(new String[args.size()]);
+				selectionArgs = args.toArray(new String[0]);
 				break;
 			case MusicUtils.Category.ALBUM :
 				where.append(" AND " + MediaStore.Audio.Media.ALBUM + "=?");
 				args.add(mSubCategory);
-				selectionArgs = args.toArray(new String[args.size()]);
+				selectionArgs = args.toArray(new String[0]);
 				break;
 			case MusicUtils.Category.GENRE :
 				uri = MediaStore.Audio.Genres.Members.getContentUri("external", mGenreList.get(mSubCategory));
-				selectionArgs = args.toArray(new String[args.size()]);
+				selectionArgs = args.toArray(new String[0]);
 				break;
 			default :
 				break;
@@ -813,6 +869,7 @@ public class MediaStoreList {
 		@Override
 		public void onQueryComplete(int token, Object cookie, Cursor cursor) {
 			if ((null != cursor) && (0 < cursor.getCount())) {
+				int[] categoryFileCount = new int[mCategoryTrackFolderCount];
 				if ((0 == token) || (100 < cursor.getCount())) {
 					mCategoryTrackCursor = cursor;
 					mRecentTrackCursor = cursor;
@@ -824,8 +881,8 @@ public class MediaStoreList {
 					for (; count < mCategoryTrackTotalCount; count++) {
 						mCategoryTrackCursor.moveToPosition(count);
 						String track = mCategoryTrackCursor.getString(mCategoryTrackCursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
+						String name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
 						if ((null == track) || (track.isEmpty())) {
-							String name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
 							track = name.substring(name.lastIndexOf('/') + 1, name.lastIndexOf('.'));
 						}
 						mCategoryTrackList.add(track);
@@ -834,27 +891,82 @@ public class MediaStoreList {
 							artist = mService.getString(R.string.unknown);
 						}
 						mCategoryTrackArtistList.add(artist);
-						mCategoryTrackTotalTimeList.add(mCategoryTrackCursor.getInt(mCategoryTrackCursor.getColumnIndex(MediaStore.Audio.Media.DURATION)));
+						for (int folderIndex = 0; folderIndex < mCategoryTrackFolderCount; folderIndex++) {
+							if (name.startsWith(mCategoryTrackList.get(folderIndex))) {
+								categoryFileCount[folderIndex]++;
+								Log.v("[jacob] categoryFileCount[" + folderIndex + "]: " + categoryFileCount[folderIndex]);
+							}
+						}
+						int duration = mCategoryTrackCursor.getInt(mCategoryTrackCursor.getColumnIndex(MediaStore.Audio.Media.DURATION));
+						mCategoryTrackTotalTimeList.add(duration);
+						Log.v("[jacob] track: " + track);
+						Log.v("[jacob] name: " + name);
+						Log.v("[jacob] artist: " + artist);
+						Log.v("[jacob] duration: " + duration);
 					}
+					Log.v("[jacob] mCategoryTrackList: " + mCategoryTrackList.size());
+					Log.v("[jacob] mCategoryTrackArtistList: " + mCategoryTrackArtistList.size());
+					Log.v("[jacob] mCategoryTrackTotalTimeList: " + mCategoryTrackTotalTimeList.size());
 				}
 				if ((0 < token) || (100 > mCategoryTrackTotalCount)) {
-					int[] totalTime = new int[mCategoryTrackTotalCount];
-					int[] fileCount = new int[mCategoryTrackTotalCount];
-					for (int index = 0; index < mCategoryTrackTotalCount; index++) {
-						totalTime[index] = mCategoryTrackTotalTimeList.get(index);
-						fileCount[index] = 0;
+					String[] artist = new String[mCategoryTrackFolderCount + mCategoryTrackTotalCount];
+					int[] totalTime = new int[mCategoryTrackFolderCount + mCategoryTrackTotalCount];
+					int[] fileCount = new int[mCategoryTrackFolderCount + mCategoryTrackTotalCount];
+					boolean[] isFolder = new boolean[mCategoryTrackFolderCount + mCategoryTrackTotalCount];
+					for (int index = 0; index < mCategoryTrackFolderCount + mCategoryTrackTotalCount; index++) {
+						if (index < mCategoryTrackFolderCount) {
+							artist[index] = null;
+							totalTime[index] = 0;
+							fileCount[index] = categoryFileCount[index];
+							isFolder[index] = true;
+						} else {
+							artist[index] = mCategoryTrackArtistList.get(index - mCategoryTrackFolderCount);
+							totalTime[index] = mCategoryTrackTotalTimeList.get(index - mCategoryTrackFolderCount);
+							fileCount[index] = 0;
+							isFolder[index] = false;
+						}
 					}
-					responseList(new ListInfo(getListType(), mSubCategory, mCategoryTrackList.toArray(new String[mCategoryTrackTotalCount]), mCategoryTrackArtistList.toArray(new String[mCategoryTrackTotalCount]), totalTime, fileCount));
+					Log.v("[jacob] mCategoryTrackArtistList: " + mCategoryTrackArtistList.toString());
+					responseList(new ListInfo(
+							getListType(),
+							mSubCategory,
+							mCategoryTrackList.toArray(new String[mCategoryTrackFolderCount + mCategoryTrackTotalCount]),
+							artist,
+							totalTime,
+							fileCount,
+							isFolder,
+							mCategoryTrackFolderCount));
 				}
 			} else {
 				mCategoryTrackCursor = null;
 				mCategoryTrackTotalCount = 0;
-				responseList(new ListInfo(getListType(), mSubCategory, null, null, null, null));
+				if ((MusicUtils.Category.FOLDER == mCategory) && (0 < mCategoryTrackFolderCount)) {
+					int[] totalTime = new int[mCategoryTrackFolderCount];
+					int[] fileCount = new int[mCategoryTrackFolderCount];
+					boolean[] isFolder = new boolean[mCategoryTrackFolderCount];
+					for (int index = 0; index < mCategoryTrackFolderCount; index++) {
+						totalTime[index] = 0;
+						fileCount[index] = 0;
+						isFolder[index] = true;
+					}
+					Log.v("[jacob] mCategoryTrackArtistList: " + mCategoryTrackArtistList.toString());
+					responseList(new ListInfo(
+							MusicUtils.ListType.FOLDER,
+							mSubCategory,
+							mCategoryTrackList.toArray(new String[mCategoryTrackFolderCount]),
+							mCategoryTrackArtistList.toArray(new String[mCategoryTrackFolderCount]),
+							totalTime,
+							fileCount,
+							isFolder,
+							mCategoryTrackFolderCount));
+				} else {
+					responseList(new ListInfo(getListType(), mSubCategory, null, null, null, null, null, 0));
+				}
 			}
 		}
 	};
 
-	private String getOrderbyFromLocalization(String name) {
+	private String getOrderByFromLocalization(String name) {
 //		Locale systemLocale = mService.getResources().getConfiguration().locale;
 		String orderBy = "";
 //		if (systemLocale.getLanguage().contains("ko")) {
@@ -923,6 +1035,27 @@ public class MediaStoreList {
 		}
 		return category;
 	}
+	private boolean existMusicFile(File folder) {
+		boolean ret = false;
+		File[] files = folder.listFiles();
+		if (files != null && files.length > 0) {
+			for (File file : files) {
+				String name = file.getName();
+				if(file.isDirectory()) {
+					if(existMusicFile(file)) {
+						ret = true;
+						break;
+					}
+				}else {
+					if(MusicUtils.MUSIC_LIST_FOLMAT.contains(name.substring(name.lastIndexOf('.') + 1).toUpperCase())) {
+						ret = true;
+						break;
+					}
+				}
+			}
+		}
+		return ret;
+	}
 
 	// ----------
 	// CategoryList internal functions
@@ -941,7 +1074,7 @@ public class MediaStoreList {
 		};
 		StringBuilder where = new StringBuilder(MediaStore.Audio.Media.IS_MUSIC + "=1");
 		String[] selectionArgs;
-		String orderBy = getOrderbyFromLocalization(MediaStore.Audio.Media.ARTIST);
+		String orderBy = getOrderByFromLocalization(MediaStore.Audio.Media.ARTIST);
 		ArrayList<String> enableStorage = MediaStorage.getEnableStorage(mService);
 		ArrayList<String> args = new ArrayList<>();
 		if (0 < enableStorage.size()) {
@@ -953,7 +1086,7 @@ public class MediaStoreList {
 			}
 			where.append(")");
 		}
-		selectionArgs = args.toArray(new String[args.size()]);
+		selectionArgs = args.toArray(new String[0]);
 		(new NotifyingAsyncQueryHandler(mService, mArtistQueryListener)).doQuery(uri, projection, where.toString(), selectionArgs, orderBy, true);
 	}
 
@@ -993,14 +1126,24 @@ public class MediaStoreList {
 					int size = mCategoryList.size();
 					int[] totalTime = new int[size];
 					int[] fileCount = new int[size];
+					boolean[] isFolder = new boolean[size];
 					for (int index = 0; index < size; index++) {
 						totalTime[index] = 0;
 						fileCount[index] = mCategoryFileCount.get(index);
+						isFolder[index] = true;
 					}
-					responseList(new ListInfo(MusicUtils.ListType.ARTIST, null, mCategoryList.toArray(new String[size]), null, totalTime, fileCount));
+					responseList(new ListInfo(
+							MusicUtils.ListType.ARTIST,
+							null,
+							mCategoryList.toArray(new String[size]),
+							null,
+							totalTime,
+							fileCount,
+							isFolder,
+							0));
 				}
 			} else {
-				responseList(new ListInfo(MusicUtils.ListType.ARTIST, null, null, null, null, null));
+				responseList(new ListInfo(MusicUtils.ListType.ARTIST, null, null, null, null, null, null, 0));
 			}
 		}
 	};
@@ -1015,7 +1158,7 @@ public class MediaStoreList {
 		};
 		StringBuilder where = new StringBuilder(MediaStore.Audio.Media.IS_MUSIC + "=1");
 		String[] selectionArgs;
-		String orderBy = getOrderbyFromLocalization(MediaStore.Audio.Media.ALBUM);
+		String orderBy = getOrderByFromLocalization(MediaStore.Audio.Media.ALBUM);
 		ArrayList<String> enableStorage = MediaStorage.getEnableStorage(mService);
 		ArrayList<String> args = new ArrayList<>();
 		if (0 < enableStorage.size()) {
@@ -1027,7 +1170,7 @@ public class MediaStoreList {
 			}
 			where.append(")");
 		}
-		selectionArgs = args.toArray(new String[args.size()]);
+		selectionArgs = args.toArray(new String[0]);
 		(new NotifyingAsyncQueryHandler(mService, mAlbumQueryListener)).doQuery(uri, projection, where.toString(), selectionArgs, orderBy, true);
 	}
 
@@ -1072,14 +1215,24 @@ public class MediaStoreList {
 					int size = mCategoryList.size();
 					int[] totalTime = new int[size];
 					int[] fileCount = new int[size];
+					boolean[] isFolder = new boolean[size];
 					for (int index = 0; index < size; index++) {
 						totalTime[index] = 0;
 						fileCount[index] = mCategoryFileCount.get(index);
+						isFolder[index] = true;
 					}
-					responseList(new ListInfo(MusicUtils.ListType.ALBUM, null, mCategoryList.toArray(new String[size]), mCategoryArtistList.toArray(new String[size]), totalTime, fileCount));
+					responseList(new ListInfo(
+							MusicUtils.ListType.ALBUM,
+							null,
+							mCategoryList.toArray(new String[size]),
+							mCategoryArtistList.toArray(new String[size]),
+							totalTime,
+							fileCount,
+							isFolder,
+							0));
 				}
 			} else {
-				responseList(new ListInfo(MusicUtils.ListType.ALBUM, null, null, null, null, null));
+				responseList(new ListInfo(MusicUtils.ListType.ALBUM, null, null, null, null, null, null, 0));
 			}
 		}
 	};
@@ -1105,7 +1258,7 @@ public class MediaStoreList {
 			}
 			where.append(")");
 		}
-		selectionArgs = args.toArray(new String[args.size()]);
+		selectionArgs = args.toArray(new String[0]);
 		(new NotifyingAsyncQueryHandler(mService, mGenreQueryListener)).doQuery(uri, projection, where.toString(), selectionArgs, null, true);
 	}
 
@@ -1159,14 +1312,24 @@ public class MediaStoreList {
 					int size = mCategoryList.size();
 					int[] totalTime = new int[size];
 					int[] fileCount = new int[size];
+					boolean[] isFolder = new boolean[size];
 					for (int index = 0; index < size; index++) {
 						totalTime[index] = 0;
 						fileCount[index] = mCategoryFileCount.get(mGenreList.get(mCategoryList.get(index)));
+						isFolder[index] = true;
 					}
-					responseList(new ListInfo(MusicUtils.ListType.GENRE, null, mCategoryList.toArray(new String[size]), null, totalTime, fileCount));
+					responseList(new ListInfo(
+							MusicUtils.ListType.GENRE,
+							null,
+							mCategoryList.toArray(new String[size]),
+							null,
+							totalTime,
+							fileCount,
+							isFolder,
+							0));
 				}
 			} else {
-				responseList(new ListInfo(MusicUtils.ListType.GENRE, null, null, null, null, null));
+				responseList(new ListInfo(MusicUtils.ListType.GENRE, null, null, null, null, null, null, 0));
 			}
 		}
 	};
@@ -1181,7 +1344,7 @@ public class MediaStoreList {
 		};
 		StringBuilder where = new StringBuilder(MediaStore.Audio.Media.IS_MUSIC + "=1");
 		String[] selectionArgs;
-		String orderBy = getOrderbyFromLocalization(MediaStore.Audio.Media.TITLE)/*MediaStore.Audio.Media.DATA*/;
+		String orderBy = getOrderByFromLocalization(MediaStore.Audio.Media.TITLE)/*MediaStore.Audio.Media.DATA*/;
 		ArrayList<String> enableStorage = MediaStorage.getEnableStorage(mService);
 		ArrayList<String> args = new ArrayList<>();
 		if (0 < enableStorage.size()) {
@@ -1193,7 +1356,7 @@ public class MediaStoreList {
 			}
 			where.append(")");
 		}
-		selectionArgs = args.toArray(new String[args.size()]);
+		selectionArgs = args.toArray(new String[0]);
 		(new NotifyingAsyncQueryHandler(mService, mFolderQueryListener)).doQuery(uri, projection, where.toString(), selectionArgs, orderBy, true);
 	}
 
@@ -1238,14 +1401,24 @@ public class MediaStoreList {
 					int size = mCategoryList.size();
 					int[] totalTime = new int[size];
 					int[] fileCount = new int[size];
+					boolean[] isFolder = new boolean[size];
 					for (int index = 0; index < size; index++) {
 						totalTime[index] = 0;
 						fileCount[index] = mCategoryFileCount.get(mFolderList.get(mCategoryList.get(index)));
+						isFolder[index] = true;
 					}
-					responseList(new ListInfo(MusicUtils.ListType.FOLDER, null, mCategoryList.toArray(new String[size]), null, totalTime, fileCount));
+					responseList(new ListInfo(
+							MusicUtils.ListType.FOLDER,
+							null,
+							mCategoryList.toArray(new String[size]),
+							null,
+							totalTime,
+							fileCount,
+							isFolder,
+							0));
 				}
 			} else {
-				responseList(new ListInfo(MusicUtils.ListType.FOLDER, null, null, null, null, null));
+				responseList(new ListInfo(MusicUtils.ListType.FOLDER, null, null, null, null, null, null, 0));
 			}
 		}
 	};

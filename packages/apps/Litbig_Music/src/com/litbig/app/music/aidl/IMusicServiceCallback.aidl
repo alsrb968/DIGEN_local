@@ -15,6 +15,7 @@ interface IMusicServiceCallback {
 	oneway void onShuffleState(int shuffle);
 	oneway void onRepeatState(int repeat);
 	oneway void onScanState(int scan);
+	oneway void onListState(int listState);
 	oneway void onListInfo(in ListInfo info);
 	oneway void onError(in String error);
 }

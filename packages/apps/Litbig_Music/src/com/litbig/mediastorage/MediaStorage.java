@@ -15,6 +15,9 @@ import android.text.TextUtils;
 import com.litbig.app.music.util.Log;
 
 public class MediaStorage {
+	public static String getRootDirectoryName() {
+		return "/storage/";
+	}
     private static Context mContext = null;
 
     public static final String AUTHORITY = "com.litbig.mediastorage";

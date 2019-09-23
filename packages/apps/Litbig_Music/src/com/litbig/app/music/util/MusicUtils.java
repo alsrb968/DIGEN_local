@@ -1,5 +1,8 @@
 package com.litbig.app.music.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class MusicUtils {
 	// ----------
 	// Definitions
@@ -25,6 +28,12 @@ public class MusicUtils {
 	public static class ScanState {
 		public static final int OFF = 0;
 		public static final int ALL = 1;
+	}
+
+	public static class ListState {
+		public static final int NONE = 0;
+		public static final int CATEGORY_DISABLE = 1;
+		public static final int CATEGORY_ENABLE = 2;
 	}
 
 	public static class Category {
@@ -58,4 +67,7 @@ public class MusicUtils {
 		public static final int GENRE_ID = 9;
 		public static final int FOLDER_PATH = 10;
 	}
+
+	public static final ArrayList MUSIC_LIST_FOLMAT = new ArrayList<>(
+			Arrays.asList("MP3", "M4A", "WAV", "AMR", "AWB", "WMA", "OGG", "AAC", "MKA", "FLAC", "APE", "RA", "MP2"));
 }
