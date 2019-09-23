@@ -12,6 +12,7 @@ public interface MusicPlayerCallbackInterface {
 	void onShuffleState(int shuffle);
 	void onRepeatState(int repeat);
 	void onScanState(int scan);
+	void onListState(int listState);
 	void onListInfo(ListInfo info);
 	void onError(String error);
 }

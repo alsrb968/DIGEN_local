@@ -84,6 +84,14 @@ public class MusicServiceCallbackStub extends IMusicServiceCallback.Stub {
 	}
 
 	@Override
+	public void onListState(int listState) throws RemoteException {
+		Message message = new Message();
+		message.what = mHandler.MESSAGE_LIST_STATE;
+		message.arg1 = listState;
+		mHandler.sendMessage(message);
+	}
+
+	@Override
 	public void onListInfo(ListInfo info) throws RemoteException {
 		Message message = new Message();
 		message.what = mHandler.MESSAGE_LIST_INFO;
@@ -110,8 +118,9 @@ public class MusicServiceCallbackStub extends IMusicServiceCallback.Stub {
 		public final int MESSAGE_SHUFFLE_STATE = 1006;
 		public final int MESSAGE_REPEAT_STATE = 1007;
 		public final int MESSAGE_SCAN_STATE = 1008;
-		public final int MESSAGE_LIST_INFO = 1009;
-		public final int MESSAGE_ERROR = 1010;
+		public final int MESSAGE_LIST_STATE = 1009;
+		public final int MESSAGE_LIST_INFO = 1010;
+		public final int MESSAGE_ERROR = 1011;
 
 		@Override
 		public void handleMessage(Message msg) {
@@ -143,6 +152,9 @@ public class MusicServiceCallbackStub extends IMusicServiceCallback.Stub {
 				break;
 			case MESSAGE_SCAN_STATE :
 				mActivity.onScanState(msg.arg1);
+				break;
+			case MESSAGE_LIST_STATE :
+				mActivity.onListState(msg.arg1);
 				break;
 			case MESSAGE_LIST_INFO :
 				if (msg.obj instanceof ListInfo) {

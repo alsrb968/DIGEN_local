@@ -3,6 +3,8 @@ package com.litbig.app.music.aidl;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Arrays;
+
 public class ListInfo implements Parcelable {
 	private int mListType;
 	private String mSubCategory;
@@ -10,14 +12,18 @@ public class ListInfo implements Parcelable {
 	private String[] mArtist;
 	private int[] mTotalTime;
 	private int[] mFileCount;
+	private boolean[] mIsFolder;
+	private int mFolderCount;
 
-	public ListInfo(int listType, String subCategory, String[] list, String[] artist, int[] totalTime, int[] fileCount) {
+	public ListInfo(int listType, String subCategory, String[] list, String[] artist, int[] totalTime, int[] fileCount, boolean[] isFolder, int folderCount) {
 		mListType = listType;
 		mSubCategory = subCategory;
 		mList = list;
 		mArtist = artist;
 		mTotalTime = totalTime;
 		mFileCount = fileCount;
+		mIsFolder = isFolder;
+		mFolderCount = folderCount;
 	}
 
 	public int getListType() {
@@ -44,6 +50,14 @@ public class ListInfo implements Parcelable {
 		return mFileCount;
 	}
 
+	public boolean[] getIsFolder() {
+		return mIsFolder;
+	}
+
+	public int getFolderCount() {
+		return mFolderCount;
+	}
+
 	public static final Parcelable.Creator<ListInfo> CREATOR = new Creator<ListInfo>() {
 		@Override
 		public ListInfo createFromParcel(Parcel src) {
@@ -53,7 +67,9 @@ public class ListInfo implements Parcelable {
 			String[] artist = src.createStringArray();
 			int[] totalTime = src.createIntArray();
 			int[] fileCount = src.createIntArray();
-			return new ListInfo(listType, subCategory, list, artist, totalTime, fileCount);
+			boolean[] isFolder = src.createBooleanArray();
+			int folderCount = src.readInt();
+			return new ListInfo(listType, subCategory, list, artist, totalTime, fileCount, isFolder, folderCount);
 		}
 
 		@Override
@@ -75,5 +91,19 @@ public class ListInfo implements Parcelable {
 		dest.writeStringArray(mArtist);
 		dest.writeIntArray(mTotalTime);
 		dest.writeIntArray(mFileCount);
+		dest.writeBooleanArray(mIsFolder);
+		dest.writeInt(mFolderCount);
+	}
+
+	public String dump() {
+		return "\n" +
+				"\t" + "ListType: " + getListType() + "\n" +
+				"\t" + "SubCategory: " + getSubCategory() + "\n" +
+				"\t" + "List: " + Arrays.toString(getList()) + "\n" +
+				"\t" + "Artist: " + Arrays.toString(getArtist()) + "\n" +
+				"\t" + "TotalTime: " + Arrays.toString(getTotalTime()) + "\n" +
+				"\t" + "FileCount: " + Arrays.toString(getFileCount()) + "\n" +
+				"\t" + "IsFolder: " + Arrays.toString(getIsFolder()) + "\n" +
+				"\t" + "FolderCount: " + getFolderCount() + "\n";
 	}
 }

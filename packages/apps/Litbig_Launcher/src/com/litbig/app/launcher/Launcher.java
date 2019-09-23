@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import android.Manifest;
 import android.annotation.NonNull;
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -47,10 +48,10 @@ import com.litbig.mediastorage.MediaStorage;
 import android.provider.Settings;
 
 
-public class Launcher extends MusicActivity {
-	private final String FILE_PATH_LCD_BRIGHTNESS 	= "/sys/class/tcc_dispman/tcc_dispman/color_enhance_lcd_brightness";
-	private final String FILE_PATH_LCD_CONTRAST 	= "/sys/class/tcc_dispman/tcc_dispman/color_enhance_lcd_contrast";
-	private final String FILE_PATH_LCD_HUE 			= "/sys/class/tcc_dispman/tcc_dispman/color_enhance_lcd_hue";
+public class Launcher extends /*Music*/Activity {
+//	private final String FILE_PATH_LCD_BRIGHTNESS 	= "/sys/class/tcc_dispman/tcc_dispman/color_enhance_lcd_brightness";
+//	private final String FILE_PATH_LCD_CONTRAST 	= "/sys/class/tcc_dispman/tcc_dispman/color_enhance_lcd_contrast";
+//	private final String FILE_PATH_LCD_HUE 			= "/sys/class/tcc_dispman/tcc_dispman/color_enhance_lcd_hue";
 
 	private final int PLAY_TIME_MAX_LENGTH = 312;
 
@@ -182,7 +183,7 @@ public class Launcher extends MusicActivity {
 		mWifiProcessing = false;
 		mBluetoothProcessing = false;
 
-		applyDisplaySetting();
+//		applyDisplaySetting();
 
 		try {
 			Settings.Secure.putString(mContext.getContentResolver(), Settings.Secure.ENABLED_INPUT_METHODS,
@@ -194,48 +195,48 @@ public class Launcher extends MusicActivity {
 		}
 	}
 
-	public void applyDisplaySetting() {
+//	public void applyDisplaySetting() {
+//
+//		int brightness = SystemProperties.getInt("persist.sys.lcd.brightness", -1);
+//		int contrast = SystemProperties.getInt("persist.sys.lcd.contrast", -1);
+//		int hue = SystemProperties.getInt("persist.sys.lcd.hue", -1);
+//
+//		if (brightness != -1) {
+//			writeFile(new File(FILE_PATH_LCD_BRIGHTNESS), String.valueOf(brightness));
+//		}
+//
+//		if (contrast != -1) {
+//			writeFile(new File(FILE_PATH_LCD_CONTRAST), String.valueOf(contrast));
+//		}
+//
+//		if (hue != -1) {
+//			writeFile(new File(FILE_PATH_LCD_HUE), String.valueOf(hue));
+//		}
+//	}
 
-		int brightness = SystemProperties.getInt("persist.sys.lcd.brightness", -1);
-		int contrast = SystemProperties.getInt("persist.sys.lcd.contrast", -1);
-		int hue = SystemProperties.getInt("persist.sys.lcd.hue", -1);
-
-		if (brightness != -1) {
-			writeFile(new File(FILE_PATH_LCD_BRIGHTNESS), String.valueOf(brightness));
-		}
-
-		if (contrast != -1) {
-			writeFile(new File(FILE_PATH_LCD_CONTRAST), String.valueOf(contrast));
-		}
-
-		if (hue != -1) {
-			writeFile(new File(FILE_PATH_LCD_HUE), String.valueOf(hue));
-		}
-	}
-
-	private boolean writeFile(File file, String content) {
-
-		if (file != null && file.exists() && content != null) {
-
-			try {
-				BufferedWriter bufferdWriter = new BufferedWriter(new FileWriter(file));
-
-				try {
-					bufferdWriter.write(content);
-					bufferdWriter.flush();
-					bufferdWriter.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			return true;
-		}
-
-		return false;
-	}
+//	private boolean writeFile(File file, String content) {
+//
+//		if (file != null && file.exists() && content != null) {
+//
+//			try {
+//				BufferedWriter bufferdWriter = new BufferedWriter(new FileWriter(file));
+//
+//				try {
+//					bufferdWriter.write(content);
+//					bufferdWriter.flush();
+//					bufferdWriter.close();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//
+//			return true;
+//		}
+//
+//		return false;
+//	}
 
 	@Override
 	public void onResume(){
@@ -250,7 +251,7 @@ public class Launcher extends MusicActivity {
 			@Override
 			public void handleMessage(Message msg) {
 				if (View.VISIBLE != mRlAudioControl.getVisibility()) {
-					bindService();
+//					bindService();
 				}
 			}
 		}.sendEmptyMessageDelayed(0, 1000);
@@ -286,18 +287,18 @@ public class Launcher extends MusicActivity {
 		Log.d("onBackPressed");
 	}
 
-	@Override
-	protected void showAudioControl(boolean show) {
-		if (show) {
-			mRlAudioControl.setVisibility(View.VISIBLE);
-		} else {
-			mIvAlbumCover.setImageResource(R.drawable.menu_02_cover);
-			mRlAudioControl.setVisibility(View.GONE);
-			mPlayingDuration = 0;
-			setAudioProgress(0);
-			mTvAudioTitle.setText("");
-		}
-	}
+//	@Override
+//	protected void showAudioControl(boolean show) {
+//		if (show) {
+//			mRlAudioControl.setVisibility(View.VISIBLE);
+//		} else {
+//			mIvAlbumCover.setImageResource(R.drawable.menu_02_cover);
+//			mRlAudioControl.setVisibility(View.GONE);
+//			mPlayingDuration = 0;
+//			setAudioProgress(0);
+//			mTvAudioTitle.setText("");
+//		}
+//	}
 
 	private void updateClock() {
 		Calendar cal = Calendar.getInstance();
@@ -332,7 +333,7 @@ public class Launcher extends MusicActivity {
 			}
 
 			else if (v == mBtnAudio) {
-				if (MediaScanReceiver.mMediaPrepared && MediaStorage.isMusicEnable(getActivity())) {
+				if (MediaScanReceiver.mMediaPrepared && MediaStorage.isMusicEnable(/*getActivity()*/mContext)) {
 					if(!startApplication(AUDIO_APPLICATION_PACKAGE_NAME))
 						Log.e("Music App Start Failed!");
 				} else {
@@ -359,7 +360,7 @@ public class Launcher extends MusicActivity {
 			}
 
 			else if (v == mBtnImage) {
-				if (MediaScanReceiver.mMediaPrepared && MediaStorage.isPhotoEnable(getActivity())) {
+				if (MediaScanReceiver.mMediaPrepared && MediaStorage.isPhotoEnable(/*getActivity()*/mContext)) {
 					if(!startApplication(IMAGE_APPLICATION_PACKAGE_NAME))
 						Log.e("Image App Start Failed!");
 				} else {
@@ -389,7 +390,7 @@ public class Launcher extends MusicActivity {
 			}
 
 			else if (v == mBtnVideo) {
-				if (MediaScanReceiver.mMediaPrepared && MediaStorage.isMovieEnable(getActivity())) {
+				if (MediaScanReceiver.mMediaPrepared && MediaStorage.isMovieEnable(/*getActivity()*/mContext)) {
 					if(!startApplication(VIDEO_APPLICATION_PACKAGE_NAME))
 						Log.e("Movie App Start Failed!");
 				} else {
@@ -414,22 +415,22 @@ public class Launcher extends MusicActivity {
 
 			else if (v == mBtnAudioPrev) {
 
-				playPrev();
+//				playPrev();
 			}
 
 			else if (v == mBtnAudioPlay) {
 
-				play();
+//				play();
 			}
 
 			else if (v == mBtnAudioPause) {
 
-				pause();
+//				pause();
 			}
 
 			else if (v == mBtnAudioNext) {
 
-				playNext();
+//				playNext();
 			}
 
 			else if (v == mBtnWifi) {
@@ -503,10 +504,10 @@ public class Launcher extends MusicActivity {
 	}
 
 	private void runActivity(Intent intent) {
-		if (!mRunApplication) {
-			mRunApplication = true;
+//		if (!mRunApplication) {
+//			mRunApplication = true;
 			startActivity(intent);
-		}
+//		}
 	}
 
 	private void handleWifiStateChanged(int state) {
@@ -628,24 +629,24 @@ public class Launcher extends MusicActivity {
 
 			else if (action.equals(MediaStorage.INTENT_ACTION_MEDIA_SCANNER_FINISHED)) {
 				if (intent.getBooleanExtra(MediaStorage.INTENT_EXTRA_MEDIA_SCAN_COMPLETE, true)) {
-					if (MediaStorage.isMusicEnable(getActivity())) {
-						if ((null != getMusicService()) && (View.VISIBLE != mRlAudioControl.getVisibility())) {
-							try {
-								getMusicService().setMusicMode(false);
-							} catch (RemoteException e) {
-								e.printStackTrace();
-							}
-						}
-					} else {
-						showAudioControl(false);
-					}
+//					if (MediaStorage.isMusicEnable(/*getActivity()*/mContext)) {
+//						if ((null != getMusicService()) && (View.VISIBLE != mRlAudioControl.getVisibility())) {
+//							try {
+//								getMusicService().setMusicMode(false);
+//							} catch (RemoteException e) {
+//								e.printStackTrace();
+//							}
+//						}
+//					} else {
+//						showAudioControl(false);
+//					}
 				}
 			}
 
 			else if (action.equals(MediaStorage.INTENT_ACTION_MEDIA_EJECT)) {
-				if (!MediaStorage.isMusicEnable(getActivity())) {
-					showAudioControl(false);
-				}
+//				if (!MediaStorage.isMusicEnable(getActivity())) {
+//					showAudioControl(false);
+//				}
 			}
 		}
 	};
@@ -700,80 +701,84 @@ public class Launcher extends MusicActivity {
 
 	// ----------
 	// MusicServiceCallback APIs
-	@Override
-	public void onTotalCount(int totalCount) {
-	}
+//	@Override
+//	public void onTotalCount(int totalCount) {
+//	}
 
-	@Override
-	public void onPlayState(int playState) {
-		switch (playState) {
-		case MusicUtils.PlayState.PLAY :
-			mBtnAudioPlay.setVisibility(View.GONE);
-			mBtnAudioPause.setVisibility(View.VISIBLE);
-			showAudioControl(true);
-			break;
-		case MusicUtils.PlayState.PAUSE :
-			mBtnAudioPlay.setVisibility(View.VISIBLE);
-			mBtnAudioPause.setVisibility(View.GONE);
-			showAudioControl(true);
-			break;
-		default :
-			break;
-		}
-		Log.d("playState = " + ((playState == MusicUtils.PlayState.PLAY) ? "PLAY" : (playState == MusicUtils.PlayState.PAUSE) ? "PAUSE" : ""));
-	}
+//	@Override
+//	public void onPlayState(int playState) {
+//		switch (playState) {
+//		case MusicUtils.PlayState.PLAY :
+//			mBtnAudioPlay.setVisibility(View.GONE);
+//			mBtnAudioPause.setVisibility(View.VISIBLE);
+////			showAudioControl(true);
+//			break;
+//		case MusicUtils.PlayState.PAUSE :
+//			mBtnAudioPlay.setVisibility(View.VISIBLE);
+//			mBtnAudioPause.setVisibility(View.GONE);
+////			showAudioControl(true);
+//			break;
+//		default :
+//			break;
+//		}
+//		Log.d("playState = " + ((playState == MusicUtils.PlayState.PLAY) ? "PLAY" : (playState == MusicUtils.PlayState.PAUSE) ? "PAUSE" : ""));
+//	}
 
-	@Override
-	public void onPlayTimeMS(int playTimeMS) {
-		if ((0 < mPlayingDuration) && (mPlayingDuration >= playTimeMS) && (0 <= playTimeMS)) {
-			setAudioProgress(playTimeMS * PLAY_TIME_MAX_LENGTH / mPlayingDuration);
-			//			Log.w(playTimeMS + "/" + mPlayingDuration);
-		}
-	}
+//	@Override
+//	public void onPlayTimeMS(int playTimeMS) {
+//		if ((0 < mPlayingDuration) && (mPlayingDuration >= playTimeMS) && (0 <= playTimeMS)) {
+//			setAudioProgress(playTimeMS * PLAY_TIME_MAX_LENGTH / mPlayingDuration);
+//			//			Log.w(playTimeMS + "/" + mPlayingDuration);
+//		}
+//	}
 
-	@Override
-	public void onMusicInfo(int index, MusicInfo info) {
-		mPlayingDuration = info.getTotalTimeMS();
-		if (0 < mPlayingDuration) {
-			setAudioProgress(getPlayTimeMS() * PLAY_TIME_MAX_LENGTH / mPlayingDuration);
-		}
-		String title = info.getTitle();
-		mTvAudioTitle.setText(title);
-		mTvAudioTitle.setSelected(true);
-		Log.d("index = " + index + ", title = " + title);
-	}
+//	@Override
+//	public void onMusicInfo(int index, MusicInfo info) {
+//		mPlayingDuration = info.getTotalTimeMS();
+//		if (0 < mPlayingDuration) {
+//			setAudioProgress(getPlayTimeMS() * PLAY_TIME_MAX_LENGTH / mPlayingDuration);
+//		}
+//		String title = info.getTitle();
+//		mTvAudioTitle.setText(title);
+//		mTvAudioTitle.setSelected(true);
+//		Log.d("index = " + index + ", title = " + title);
+//	}
 
-	@Override
-	public void onAlbumArt(int index, Bitmap albumArt) {
-		if (null == albumArt) {
-			mIvAlbumCover.setImageResource(R.drawable.cover_img);
-			Log.w("index = " + index + ", albumArt null");
-		} else {
-			mIvAlbumCover.setImageBitmap(albumArt);
-			Log.d("index = " + index + ", albumArt OK");
-		}
-	}
+//	@Override
+//	public void onAlbumArt(int index, Bitmap albumArt) {
+//		if (null == albumArt) {
+//			mIvAlbumCover.setImageResource(R.drawable.cover_img);
+//			Log.w("index = " + index + ", albumArt null");
+//		} else {
+//			mIvAlbumCover.setImageBitmap(albumArt);
+//			Log.d("index = " + index + ", albumArt OK");
+//		}
+//	}
 
-	@Override
-	public void onShuffleState(int shuffle) {
-	}
-
-	@Override
-	public void onRepeatState(int repeat) {
-	}
-
-	@Override
-	public void onScanState(int scan) {
-	}
-
-	@Override
-	public void onListInfo(ListInfo info) {
-	}
-
-	@Override
-	public void onError(String error) {
-		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
-	}
+//	@Override
+//	public void onShuffleState(int shuffle) {
+//	}
+//
+//	@Override
+//	public void onRepeatState(int repeat) {
+//	}
+//
+//	@Override
+//	public void onScanState(int scan) {
+//	}
+//
+//	@Override
+//	public void onListState(int listState) {
+//	}
+//
+//	@Override
+//	public void onListInfo(ListInfo info) {
+//	}
+//
+//	@Override
+//	public void onError(String error) {
+//		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+//	}
 
 	private static final String[] permissionList = {
 		Manifest.permission.READ_EXTERNAL_STORAGE,

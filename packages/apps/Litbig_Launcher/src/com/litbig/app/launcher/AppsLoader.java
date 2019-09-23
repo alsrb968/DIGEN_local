@@ -96,7 +96,6 @@ public class AppsLoader extends AsyncTaskLoader<ArrayList<AppModel>> {
             }
         }
 
-        ArrayList<AppModel> oldApps = apps;
         mInstalledApps = apps;
 
         if (isStarted()) {
@@ -108,8 +107,8 @@ public class AppsLoader extends AsyncTaskLoader<ArrayList<AppModel>> {
         // At this point we can release the resources associated with
         // 'oldApps' if needed; now that the new result is delivered we
         // know that it is no longer in use.
-        if (oldApps != null) {
-            onReleaseResources(oldApps);
+        if (apps != null) {
+            onReleaseResources(apps);
         }
     }
 
